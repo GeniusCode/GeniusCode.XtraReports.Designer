@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace XtraSubReports.TestResources.Models
+﻿namespace XtraSubReports.TestResources.Models
 {
     public class Dog
     {

@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace XtraSubReports.TestResources.Reports
+﻿namespace XtraSubReports.TestResources.Reports
 {
     public partial class DogReport : DevExpress.XtraReports.UI.XtraReport
     {

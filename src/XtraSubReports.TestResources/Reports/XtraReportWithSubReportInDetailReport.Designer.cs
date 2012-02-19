@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using XtraSubReports.TestResources.Models;
+﻿using XtraSubReports.TestResources.Models;
 
 namespace XtraSubReports.TestResources.Reports
 {

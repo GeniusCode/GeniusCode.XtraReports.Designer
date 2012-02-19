@@ -11,7 +11,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace XtraSubReport.Winforms.Specs
+namespace GeniusCode.XtraReports.Designer.Specs
 {
     using TechTalk.SpecFlow;
     

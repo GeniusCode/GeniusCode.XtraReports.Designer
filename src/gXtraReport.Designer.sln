@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gcXtraReports.Designer", "g
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gcXtraReports.TestResources", "XtraSubReports.TestResources\gcXtraReports.TestResources.csproj", "{4C4B84C6-A3BF-42AC-9E7B-393387DBA4D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gcXtraReports.Winforms.Specs", "gcXtraReports.Designer.Specs\gcXtraReports.Winforms.Specs.csproj", "{F212BFE5-24E2-41DA-89C0-BD0B7AE9967E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gcXtraReports.Designer.Specs", "gcXtraReports.Designer.Specs\gcXtraReports.Designer.Specs.csproj", "{F212BFE5-24E2-41DA-89C0-BD0B7AE9967E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gcXtraReports.Winforms.Tests", "gcXtraReports.Designer.Tests\gcXtraReports.Winforms.Tests.csproj", "{158658AA-76A8-44BF-A4E5-475CA334679C}"
 EndProject
