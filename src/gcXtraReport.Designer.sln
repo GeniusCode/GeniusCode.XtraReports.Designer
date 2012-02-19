@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gcXtraReports.TestResources
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gcXtraReports.Designer.Specs", "gcXtraReports.Designer.Specs\gcXtraReports.Designer.Specs.csproj", "{F212BFE5-24E2-41DA-89C0-BD0B7AE9967E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gcXtraReports.Winforms.Tests", "gcXtraReports.Designer.Tests\gcXtraReports.Winforms.Tests.csproj", "{158658AA-76A8-44BF-A4E5-475CA334679C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gcXtraReports.Designer.Tests", "gcXtraReports.Designer.Tests\gcXtraReports.Designer.Tests.csproj", "{158658AA-76A8-44BF-A4E5-475CA334679C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
