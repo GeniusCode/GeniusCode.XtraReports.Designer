@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -122,7 +123,7 @@ namespace GeniusCode.XtraReports.Designer
             datasourceProviderTypes.ForEach(t => builder.RegisterType(t).AsImplementedInterfaces());
 
             builder.RegisterInstance(EventAggregatorSingleton.Instance).AsImplementedInterfaces();
-            builder.RegisterType<XRMessagingDesignForm>().OnActivated(a=> DrawToolbarButtons(a.Instance));
+            builder.RegisterType<MessagingDesignForm>().OnActivated(a=> DrawToolbarButtons(a.Instance));
             builder.RegisterType<DesignReportMetadataAssociationRepository>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<DesignDataRepository>().AsImplementedInterfaces().SingleInstance();
             //TODO: Make this work again builder.RegisterType<SelectDesignTimeDataSourceForm>();
@@ -135,7 +136,7 @@ namespace GeniusCode.XtraReports.Designer
             return builder.Build();
         }
 
-        private static void DrawToolbarButtons(XRMessagingDesignForm form)
+        private static void DrawToolbarButtons(MessagingDesignForm form)
         {
             var dataContext = CompositeRoot.Instance.GetDesignDataContext();
 
@@ -160,13 +161,26 @@ namespace GeniusCode.XtraReports.Designer
                 }
 
                 var report = form.DesignMdiController.ActiveDesignPanel.Report;
-                report.TryAs<gcXtraReport>(myReport => PromptSelectDatasource(form, myReport, dataContext));
+                report.TryAs<gcXtraReport>(myReport =>
+                                               {
+                                                   PromptSelectDatasource(form, myReport, dataContext);
+                                                   RedrawFieldListOnActiveDesignPanel(form);
+                                               });
             };
 
             // Add Datasource Button
             form.DesignBarManager.Toolbar.AddItem(item);
 
 
+        }
+
+
+        private static void RedrawFieldListOnActiveDesignPanel(MessagingDesignForm form)
+        {
+            // Update the Field List.
+            var fieldList = (FieldListDockPanel)form.DesignDockManager[DesignDockPanelType.FieldList];
+            var host = (IDesignerHost)form.ActiveDesignPanel.GetService(typeof(IDesignerHost));
+            fieldList.UpdateDataSource(host);
         }
 
 

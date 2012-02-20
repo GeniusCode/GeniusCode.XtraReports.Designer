@@ -183,7 +183,7 @@
     <Compile Include="Prototypes\RelayCommandHandler.cs" />
     <Compile Include="Messaging\ReportActivatedBySubreportMessage.cs" />
     <Compile Include="Messaging\ReportActivatedMessage.cs" />
-    <Compile Include="Popups\XRMessagingDesignForm.cs">
+    <Compile Include="Popups\MessagingDesignForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Repositories\DesignReportMetadataAssociationRepository.cs" />

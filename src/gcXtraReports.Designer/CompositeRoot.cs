@@ -25,7 +25,7 @@ namespace GeniusCode.XtraReports.Designer
 
         public XRDesignForm GetDesignForm()
         {
-            return _container.Resolve<XRMessagingDesignForm>();
+            return _container.Resolve<MessagingDesignForm>();
         }
 
         public DesignDataContext2 GetDesignDataContext()
