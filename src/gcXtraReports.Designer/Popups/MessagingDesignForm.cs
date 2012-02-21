@@ -36,12 +36,7 @@ namespace GeniusCode.XtraReports.Designer.Popups
 
         private void InitForm()
         {
-            // Report Factory Service (which uses custom MyReportBase class)
-            var service = new ReportFactory();
-            DesignMdiController.AddService(typeof(ReportTypeService), service);
-
             AssignHandlers();
-
             SendMessagesOnReportActivations();
         }
 
@@ -56,9 +51,7 @@ namespace GeniusCode.XtraReports.Designer.Popups
         void DesignMdiController_DesignPanelLoaded(object sender, DesignerLoadedEventArgs e)
         {
             RegisterPanelForMessageOnPreview(sender);
-        }
-
-        
+        }       
 
         #endregion
 

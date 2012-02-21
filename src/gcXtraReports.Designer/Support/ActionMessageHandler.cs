@@ -12,19 +12,17 @@ using gcExtensions;
 
 namespace GeniusCode.XtraReports.Designer.Support
 {
-    public class ActionMessageHandler : IHandle<ReportSavingMessage>, IHandle<DataSourceSelectedForReportMessage>, IHandle<ReportActivatedMessage>, IHandle<ReportActivatedBySubreportMessage>, IHandle<DesignPanelPrintPreviewMessage>
+    public class ActionMessageHandler : IHandle<DataSourceSelectedForReportMessage>, IHandle<ReportActivatedMessage>, IHandle<ReportActivatedBySubreportMessage>, IHandle<DesignPanelPrintPreviewMessage>
     {
         private readonly IDataSourceSetter _dataSourceSetter;
         private readonly IDesignReportMetadataAssociationRepository _metadataAssociationRepository;
         private readonly IReportControllerFactory _reportControllerFactory;
-        private readonly PathReWriter _reWriter;
-
-        public ActionMessageHandler(IDataSourceSetter dataSourceSetter, IEventAggregator aggregator, IDesignReportMetadataAssociationRepository metadataAssociationRepository, IReportControllerFactory reportControllerFactory, PathReWriter reWriter)
+        
+        public ActionMessageHandler(IDataSourceSetter dataSourceSetter, IEventAggregator aggregator, IDesignReportMetadataAssociationRepository metadataAssociationRepository, IReportControllerFactory reportControllerFactory)
         {
             _dataSourceSetter = dataSourceSetter;
             _metadataAssociationRepository = metadataAssociationRepository;
             _reportControllerFactory = reportControllerFactory;
-            _reWriter = reWriter;
             aggregator.Subscribe(this);
         }
 
@@ -139,9 +137,5 @@ namespace GeniusCode.XtraReports.Designer.Support
                 message.ReportDatasourceMetadataWithTraversal.TraversalPath);
         }
 
-        public void Handle(ReportSavingMessage message)
-        {
-            _reWriter.PerformOnReport(message.Report);
-        }
     }
 }

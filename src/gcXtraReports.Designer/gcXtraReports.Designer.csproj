@@ -135,7 +135,6 @@
     <Compile Include="CompositeRoot.cs" />
     <Compile Include="DesignDataContext2.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="Messaging\ReportSavingMessage.cs" />
     <Compile Include="Messaging\DataSourceSelectedForReportMessage.cs" />
     <Compile Include="Popups\SelectDesignTimeDataSourceForm.cs">
       <SubType>Form</SubType>
@@ -153,7 +152,7 @@
     <Compile Include="Prototypes\DllLoader.cs" />
     <Compile Include="Prototypes\IDynamicDllLoader.cs" />
     <Compile Include="Prototypes\IFileAndDirectoryCloner.cs" />
-    <Compile Include="Support\MessagingReportStoreExtension.cs" />
+    <Compile Include="Support\CustomRootDirectoryStorageExtension.cs" />
     <Compile Include="Support\ActionMessageHandler.cs" />
     <Compile Include="Support\AppBootStrapper.cs" />
     <Compile Include="Support\AppProjectsStructureMode.cs" />
@@ -174,7 +173,6 @@
     <Compile Include="Support\DataSourceSetter.cs" />
     <Compile Include="Support\MessagePublishingTarget.cs" />
     <Compile Include="Support\NLogMessage.cs" />
-    <Compile Include="Support\PathReWriter.cs" />
     <Compile Include="Support\ProjectBootStrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Messaging\DesignPanelPrintPreviewMessage.cs" />

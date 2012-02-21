@@ -52,20 +52,10 @@ namespace GeniusCode.XtraReports.Designer
             var form = CompositeRoot.Instance.GetDesignForm();
             DebugDebugMessageHandler = CompositeRoot.Instance.GetDebugMessageHandler();
             ActionMessageHandler = CompositeRoot.Instance.GetActionMessageHandler();
- /*           // Runtime Actions
-            var runtimeActions = new List<IReportRuntimeAction>()
-            {
-                new ReportRuntimeAction<XRLabel>(label => label.Name.Contains("gold"), label => label.BackColor = Color.Gold)
-            };*/
-
-/*            var rootProjectPath = string.Empty;
-            List<IReportDatasourceProvider> datasourceProviders = null;
-
-            var designerContext = new DesignerContext(runtimeActions, projectBootstrapper.ReportsFolderPath, rootProjectPath, datasourceProviders);*/
-
-            var extension = new MessagingReportStoreExtension(EventAggregatorSingleton.Instance, ProjectReportPath);
+ 
+            var extension = new CustomRootDirectoryStorageExtension(ProjectReportPath);
             ReportStorageExtension.RegisterExtensionGlobal(extension);
-
+            
             Application.Run(form);
         }
 
@@ -140,7 +130,6 @@ namespace GeniusCode.XtraReports.Designer
             builder.RegisterType<ReportControllerFactory>().AsImplementedInterfaces();
             builder.RegisterType<ObjectGraphPathTraverser>().AsImplementedInterfaces();
             builder.RegisterType<DataSourceSetter>().AsImplementedInterfaces();
-            builder.Register(c => new PathReWriter(ProjectReportPath)).SingleInstance();
             return builder.Build();
         }
 
