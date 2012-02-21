@@ -13,6 +13,10 @@ namespace GeniusCode.XtraReports.Designer.Support
     {
         private const string PluginsFolderName = "Plugins_Root";
 
+        public string ProjectPath
+        {
+            get { return _projectPath; }
+        }
 
         private readonly Logger _logger;
         private readonly string _projectPath;

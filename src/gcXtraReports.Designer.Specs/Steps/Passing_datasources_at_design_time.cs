@@ -33,7 +33,7 @@ namespace XtraSubReport.Winforms.Specs.Steps
         {
             _eventAggregator = new EventAggregator();
             _dataContext = Factory.CreateForDogTime(out _setter);
-            _messageHandler = new ActionMessageHandler(_setter,_eventAggregator,_dataContext.DesignDataRepository,_dataContext.DesignDataDefinitionRepository,new ReportControllerFactory());
+            _messageHandler = new ActionMessageHandler(_setter,_eventAggregator,_dataContext.DesignDataDefinitionRepository,new ReportControllerFactory(), new PathReWriter(""));
         }
 
         [Given(@"a datasource exists called DogTime")]

@@ -6,10 +6,9 @@ using System.Windows.Forms;
 using Autofac;
 using Caliburn.Micro;
 using DevExpress.XtraBars;
+using DevExpress.XtraReports.Extensions;
 using DevExpress.XtraReports.UserDesigner;
-using GeniusCode.Framework.Extensions;
 using GeniusCode.XtraReports.Design;
-using GeniusCode.XtraReports.Design.Datasources;
 using GeniusCode.XtraReports.Design.Traversals;
 using GeniusCode.XtraReports.Designer.Messaging;
 using GeniusCode.XtraReports.Designer.Popups;
@@ -17,6 +16,7 @@ using GeniusCode.XtraReports.Designer.Repositories;
 using GeniusCode.XtraReports.Designer.Support;
 using GeniusCode.XtraReports.Runtime.Support;
 using NLog;
+using gcExtensions;
 
 //using SelectDesignTimeDataSourceForm = XtraSubReport.Winforms.Popups.SelectDesignTimeDataSourceForm;
 
@@ -31,7 +31,8 @@ namespace GeniusCode.XtraReports.Designer
         private const string ReportsDirectoryName = "Reports";
         private const string ActionsDirectoryName = "Actions";
         private const string BootStrapperBatchFileName = "bootstrapper.bat";
-
+        internal static string ProjectPath;
+        internal static string ProjectReportPath;
         // NLog - Helpful to diagnose if a DLL cannot be found, etc.
         private static Logger _logger;
 
@@ -62,6 +63,9 @@ namespace GeniusCode.XtraReports.Designer
 
             var designerContext = new DesignerContext(runtimeActions, projectBootstrapper.ReportsFolderPath, rootProjectPath, datasourceProviders);*/
 
+            var extension = new MessagingReportStoreExtension(EventAggregatorSingleton.Instance, ProjectReportPath);
+            ReportStorageExtension.RegisterExtensionGlobal(extension);
+
             Application.Run(form);
         }
 
@@ -90,10 +94,13 @@ namespace GeniusCode.XtraReports.Designer
             debug.Show();
             projectBootstrapper = bs.GetProjectBootstrapper(ReportsDirectoryName, DataSourceDirectoryName,
                                                                 ActionsDirectoryName);
-
+            
             projectBootstrapper.ExecuteProjectBootStrapperFile(BootStrapperBatchFileName);
             projectBootstrapper.CopyProjectFiles();
             projectBootstrapper.LoadProjectAssemblies();
+            
+            ProjectPath = projectBootstrapper.ProjectPath;
+            ProjectReportPath = Path.Combine(ProjectPath, ReportsDirectoryName);
             return true;
         }
 
@@ -133,6 +140,7 @@ namespace GeniusCode.XtraReports.Designer
             builder.RegisterType<ReportControllerFactory>().AsImplementedInterfaces();
             builder.RegisterType<ObjectGraphPathTraverser>().AsImplementedInterfaces();
             builder.RegisterType<DataSourceSetter>().AsImplementedInterfaces();
+            builder.Register(c => new PathReWriter(ProjectReportPath)).SingleInstance();
             return builder.Build();
         }
 
@@ -164,7 +172,7 @@ namespace GeniusCode.XtraReports.Designer
                 report.TryAs<gcXtraReport>(myReport =>
                                                {
                                                    PromptSelectDatasource(form, myReport, dataContext);
-                                                   RedrawFieldListOnActiveDesignPanel(form);
+                                                   form.RedrawFieldListOnActiveDesignPanel();
                                                });
             };
 
@@ -172,16 +180,14 @@ namespace GeniusCode.XtraReports.Designer
             form.DesignBarManager.Toolbar.AddItem(item);
 
 
+            // Hide Scripting & HTML Preview
+            form.DesignMdiController.SetCommandVisibility(ReportCommand.ShowScriptsTab, CommandVisibility.None);
+            form.DesignMdiController.SetCommandVisibility(ReportCommand.ShowHTMLViewTab, CommandVisibility.None);
+
         }
 
 
-        private static void RedrawFieldListOnActiveDesignPanel(MessagingDesignForm form)
-        {
-            // Update the Field List.
-            var fieldList = (FieldListDockPanel)form.DesignDockManager[DesignDockPanelType.FieldList];
-            var host = (IDesignerHost)form.ActiveDesignPanel.GetService(typeof(IDesignerHost));
-            fieldList.UpdateDataSource(host);
-        }
+        
 
 
         private static void PromptSelectDatasource(XRDesignForm form, gcXtraReport report, IDesignDataContext dataContext)

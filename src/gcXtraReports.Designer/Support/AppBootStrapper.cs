@@ -12,6 +12,7 @@ namespace GeniusCode.XtraReports.Designer.Support
         private string _projectName;
         public string RootPath {get { return _defaultRootPath; }}
 
+
         public AppBootStrapper(string defaultRootPath)
         {
             _defaultRootPath = defaultRootPath;
@@ -22,7 +23,9 @@ namespace GeniusCode.XtraReports.Designer.Support
             if(string.IsNullOrWhiteSpace(_projectName))
                 throw new Exception("Project not set");
 
-            return new ProjectBootStrapper(Path.Combine(_defaultRootPath,_projectName), reportsFolderName, dataSourceFolderName, actionsFolderName, new Cloner(), new DllLoader());
+            var projectPath = Path.Combine(_defaultRootPath, _projectName);
+
+            return new ProjectBootStrapper(projectPath, reportsFolderName, dataSourceFolderName, actionsFolderName, new Cloner(), new DllLoader());
         }
 
         public void CreateRootPathIfNeeded()

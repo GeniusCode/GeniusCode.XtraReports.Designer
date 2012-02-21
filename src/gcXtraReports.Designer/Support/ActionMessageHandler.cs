@@ -1,28 +1,30 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 using Caliburn.Micro;
 using DevExpress.XtraReports.UI;
-using GeniusCode.Framework.Extensions;
 using GeniusCode.XtraReports.Design;
 using GeniusCode.XtraReports.Designer.Messaging;
 using GeniusCode.XtraReports.Runtime;
 using GeniusCode.XtraReports.Runtime.Support;
+using gcExtensions;
 
 namespace GeniusCode.XtraReports.Designer.Support
 {
-    public class ActionMessageHandler : IHandle<DataSourceSelectedForReportMessage>, IHandle<ReportActivatedMessage>, IHandle<ReportActivatedBySubreportMessage>, IHandle<DesignPanelPrintPreviewMessage>
+    public class ActionMessageHandler : IHandle<ReportSavingMessage>, IHandle<DataSourceSelectedForReportMessage>, IHandle<ReportActivatedMessage>, IHandle<ReportActivatedBySubreportMessage>, IHandle<DesignPanelPrintPreviewMessage>
     {
         private readonly IDataSourceSetter _dataSourceSetter;
-        private readonly IDesignDataRepository _designDataRepository;
         private readonly IDesignReportMetadataAssociationRepository _metadataAssociationRepository;
         private readonly IReportControllerFactory _reportControllerFactory;
+        private readonly PathReWriter _reWriter;
 
-        public ActionMessageHandler(IDataSourceSetter dataSourceSetter, IEventAggregator aggregator, IDesignDataRepository designDataRepository, IDesignReportMetadataAssociationRepository metadataAssociationRepository, IReportControllerFactory reportControllerFactory)
+        public ActionMessageHandler(IDataSourceSetter dataSourceSetter, IEventAggregator aggregator, IDesignReportMetadataAssociationRepository metadataAssociationRepository, IReportControllerFactory reportControllerFactory, PathReWriter reWriter)
         {
             _dataSourceSetter = dataSourceSetter;
-            _designDataRepository = designDataRepository;
             _metadataAssociationRepository = metadataAssociationRepository;
             _reportControllerFactory = reportControllerFactory;
+            _reWriter = reWriter;
             aggregator.Subscribe(this);
         }
 
@@ -117,6 +119,9 @@ namespace GeniusCode.XtraReports.Designer.Support
             var path = GetTraversalPath(message.SelectedSubreport.Band);
             // set datasource on new report
             _dataSourceSetter.SetReportDatasource(message.NewReport,parentDataSourceDefinition,path);
+
+
+
         }
 
         public void Handle(DesignPanelPrintPreviewMessage message)
@@ -132,6 +137,11 @@ namespace GeniusCode.XtraReports.Designer.Support
             _dataSourceSetter.SetReportDatasource(message.Report,
                 message.ReportDatasourceMetadataWithTraversal,
                 message.ReportDatasourceMetadataWithTraversal.TraversalPath);
+        }
+
+        public void Handle(ReportSavingMessage message)
+        {
+            _reWriter.PerformOnReport(message.Report);
         }
     }
 }

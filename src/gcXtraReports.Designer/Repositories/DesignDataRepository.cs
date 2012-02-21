@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using GeniusCode.XtraReports.Design;
+using gcExtensions;
 
 namespace GeniusCode.XtraReports.Designer.Repositories
 {

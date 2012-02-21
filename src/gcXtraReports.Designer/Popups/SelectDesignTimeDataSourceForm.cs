@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using Caliburn.Micro;
-using GeniusCode.Framework.Support.Collections.Tree;
 using GeniusCode.XtraReports.Design;
 using GeniusCode.XtraReports.Design.Datasources;
-using GeniusCode.XtraReports.Design.Traversals;
 using GeniusCode.XtraReports.Designer.Messaging;
-using GeniusCode.XtraReports.Designer.Popups.Support;
 using GeniusCode.XtraReports.Runtime.Support;
 
 namespace GeniusCode.XtraReports.Designer.Popups

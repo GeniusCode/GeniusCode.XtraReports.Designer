@@ -36,7 +36,7 @@ namespace XtraSubReports.Winforms.Tests.Integration
             DataSourceSetter setter;
             IDesignDataRepository datarep;
             var dataDefRep = init(out setter, out datarep);
-            var handler = new ActionMessageHandler( setter, new EventAggregator(), datarep,dataDefRep, new ReportControllerFactory());
+            var handler = new ActionMessageHandler( setter, new EventAggregator(),dataDefRep, new ReportControllerFactory(),new PathReWriter(""));
             
             // given a report
             var report = new XtraReportWithSubReportInDetailReport();

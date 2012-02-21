@@ -69,7 +69,7 @@ namespace GeniusCode.XtraReports.Designer.Popups
             // 
             // bindingSource1
             // 
-            this.bindingSource1.DataSource = typeof(GeniusCode.XtraReports.Designer.Popups.Support.DesignTimeDataSourceTreeItem);
+            this.bindingSource1.DataSource = typeof(string);
             // 
             // imageList1
             // 

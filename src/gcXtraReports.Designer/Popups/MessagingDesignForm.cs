@@ -3,12 +3,11 @@ using System.Linq;
 using Caliburn.Micro;
 using DevExpress.XtraReports.UI;
 using DevExpress.XtraReports.UserDesigner;
-using GeniusCode.Framework.Extensions;
 using GeniusCode.XtraReports.Design;
 using GeniusCode.XtraReports.Designer.Messaging;
 using GeniusCode.XtraReports.Designer.Prototypes;
-using GeniusCode.XtraReports.Runtime;
 using GeniusCode.XtraReports.Runtime.Support;
+using gcExtensions;
 
 namespace GeniusCode.XtraReports.Designer.Popups
 {
@@ -106,6 +105,7 @@ namespace GeniusCode.XtraReports.Designer.Popups
                         // Subreport was Double-clicked, new DesignPanel has been activated for it
                         // Pass Design-Time DataSource from Parent to Subreport
                         _aggregator.Publish(new ReportActivatedBySubreportMessage(myReport, selectedSubreport));
+                        this.RedrawFieldListOnActiveDesignPanel();
                     //PassDesignTimeDataSourceToSubreport(selectedSubreport, myReport);
                 });
 

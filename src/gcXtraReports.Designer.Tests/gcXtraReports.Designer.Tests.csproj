@@ -36,14 +36,15 @@
     <Reference Include="DevExpress.Data.v11.2, Version=11.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Printing.v11.2.Core, Version=11.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraReports.v11.2, Version=11.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v11.2.Extensions, Version=11.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="FluentAssertions">
       <HintPath>..\packages\FluentAssertions.1.7.0\Lib\net40\FluentAssertions.dll</HintPath>
     </Reference>
     <Reference Include="gcXtraReports.Core">
       <HintPath>..\packages\gcXtraReports.Core.1.0.7\lib\net40\gcXtraReports.Core.dll</HintPath>
     </Reference>
-    <Reference Include="gcXtraReports.Runtime">
-      <HintPath>..\packages\gcXtraReports.Runtime.1.0.38\lib\net40\gcXtraReports.Runtime.dll</HintPath>
+    <Reference Include="gcXtraReports.Runtime, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\gcXtraReports.Runtime.1.0.39\lib\net40\gcXtraReports.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
@@ -63,6 +64,7 @@
     <Compile Include="Integration\Setter_tests.cs" />
     <Compile Include="Unit\Cloner_tests.cs" />
     <Compile Include="Unit\Project_bootstrapper_tests.cs" />
+    <Compile Include="Unit\MessagingReportStoreExtension_Tests.cs" />
     <Compile Include="XtraReport1.cs">
       <SubType>Component</SubType>
     </Compile>

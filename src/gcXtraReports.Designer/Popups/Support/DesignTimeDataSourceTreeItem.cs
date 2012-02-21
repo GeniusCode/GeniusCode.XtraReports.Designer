@@ -1,11 +1,8 @@
 ﻿using System.Linq;
-using System;
-using GeniusCode.Framework.Support.Collections.Tree;
-using GeniusCode.XtraReports.Design.Datasources;
 
 namespace GeniusCode.XtraReports.Designer.Popups.Support
 {
-    public class DesignTimeDataSourceTreeItem : IDynamicTreeviewItem
+/*    public class DesignTimeDataSourceTreeItem : IDynamicTreeviewItem
     {
         public ReportDatasourceMetadataWithTraversal DesignTimeDataSourceDefinition { get; set; }
         public IReportDatasourceMetadata Metadata { get; set; }
@@ -52,6 +49,6 @@ namespace GeniusCode.XtraReports.Designer.Popups.Support
         public string Path { get; set; }
 
         #endregion
-    }
+    }*/
 
 }

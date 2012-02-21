@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using GeniusCode.Framework.Extensions;
 using GeniusCode.XtraReports.Design;
 using GeniusCode.XtraReports.Runtime.Support;
-
+using gcExtensions;
 namespace GeniusCode.XtraReports.Designer.Repositories
 {
     public class DesignReportMetadataAssociationRepository : IDesignReportMetadataAssociationRepository
@@ -19,26 +18,28 @@ namespace GeniusCode.XtraReports.Designer.Repositories
 
         public IEnumerable<IReportDatasourceMetadataWithTraversal> GetAssociationsForReport(gcXtraReport report)
         {
-            return _allItemsDictionary.CreateOrGetValue(report.GetHashCode(),
+            return _allItemsDictionary.GetOrCreateValue(report.GetHashCode(),
                                                         () => new HashSet<IReportDatasourceMetadataWithTraversal>());
         }
 
         public IReportDatasourceMetadataWithTraversal GetCurrentAssociationForReport(gcXtraReport report)
         {
-            return _currentlySelectedDictionary.GetIfExists(report.GetHashCode(), null);
+            IReportDatasourceMetadataWithTraversal output;
+            _currentlySelectedDictionary.TryGetValue(report.GetHashCode(), out output);
+            return output;
         }
 
         public void AssociateWithReport(IReportDatasourceMetadataWithTraversal definition, gcXtraReport report)
         {
-            var hashset = _allItemsDictionary.CreateOrGetValue(report.GetHashCode(),
+            var hashset = _allItemsDictionary.GetOrCreateValue(report.GetHashCode(),
                                                                () => new HashSet<IReportDatasourceMetadataWithTraversal>());
-
-            hashset.AddIfUnique(definition);
+            if (!hashset.Contains(definition))
+                hashset.Add(definition);
         }
 
         public void AssociateWithReportAsCurrent(IReportDatasourceMetadataWithTraversal definition, gcXtraReport report)
         {
-            _currentlySelectedDictionary.AddIfUniqueOrReplace(definition, ds => report.GetHashCode());
+            _currentlySelectedDictionary.AddIfUniqueOrReplace(definition, report.GetHashCode());
         }
     }
 }
