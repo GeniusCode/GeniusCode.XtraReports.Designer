@@ -41,7 +41,7 @@
       <HintPath>..\packages\gcXtraReports.Core.1.0.7\lib\net40\gcXtraReports.Core.dll</HintPath>
     </Reference>
     <Reference Include="gcXtraReports.Runtime, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\gcXtraReports.Runtime.1.0.40\lib\net40\gcXtraReports.Runtime.dll</HintPath>
+      <HintPath>..\packages\gcXtraReports.Runtime.1.0.41\lib\net40\gcXtraReports.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

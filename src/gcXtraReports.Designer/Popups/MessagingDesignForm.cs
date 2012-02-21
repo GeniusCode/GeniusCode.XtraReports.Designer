@@ -87,7 +87,7 @@ namespace GeniusCode.XtraReports.Designer.Popups
                 // designPanel.FileName = url;
 
                 // Populate Design-Time Datasource
-                report.TryAs<gcXtraReport>(myReport =>
+                report.TryAs<XtraReport>(myReport =>
                 {
                     if (selectedSubreport == null)
                         // Stand-alone Report

@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using gcExtensions;
-using Fasterflect;
+using GeniusCode.Framework.Extensions;
+using GeniusCode.Framework.Support.Refection;
 
 namespace GeniusCode.XtraReports.Design.Traversals
 {
@@ -26,14 +26,14 @@ namespace GeniusCode.XtraReports.Design.Traversals
 
             int index = 0;
             members.ForEach(member =>
-                                {
-                                    bool isLastPathSegment = index == members.Count - 1;
+            {
+                bool isLastPathSegment = index == members.Count - 1;
 
-                                    if (target != null)
-                                        target = TraverseMember(target, member, isLastPathSegment);
+                if (target != null)
+                    target = TraverseMember(target, member, isLastPathSegment);
 
-                                    index++;
-                                });
+                index++;
+            });
 
             return target;
         }
@@ -43,14 +43,14 @@ namespace GeniusCode.XtraReports.Design.Traversals
             if (path == null)
                 return new MemberTraversal[] { };
 
-            var split = path.Split(new [] {PathDelimiter}, StringSplitOptions.None);
+            var split = path.Split(PathDelimiter);
 
-            return split.Select(ConvertPathSegmentToTraversal);
+            return split.Select(segment => ConvertPathSegmentToTraversal(segment));
         }
 
         private MemberTraversal ConvertPathSegmentToTraversal(string segment)
         {
-            Match match;
+            Match match = null;
 
             try
             {
@@ -83,11 +83,11 @@ namespace GeniusCode.XtraReports.Design.Traversals
             // Is Target a Collection?
             // Extract first item
             target.TryAs<IEnumerable>(collection =>
-                                           {
-                                               var list = Enumerable.Cast<object>(collection);
-                                               var newTarget = list.FirstOrDefault();
-                                               result = TraverseMember(newTarget, member, isLastPathSegment);
-                                           });
+            {
+                var list = Enumerable.Cast<object>(collection);
+                var newTarget = list.FirstOrDefault();
+                result = TraverseMember(newTarget, member, isLastPathSegment);
+            });
 
 
             if (result == null)
@@ -99,18 +99,18 @@ namespace GeniusCode.XtraReports.Design.Traversals
                     result = target;
                 else
                     // Get Related Member
-                    result = target.GetPropertyValue(member.MemberName);// ReflectionHelper.GetMemberValue(target, member.MemberName);
+                    result = ReflectionHelper.GetMemberValue(target, member.MemberName);
 
                 // Is it a Collection?
                 result.TryAs<IEnumerable>(collection =>
-                                              {
-                                                  // If not last path segment
-                                                  // or supposed to extract item
-                                                  bool shouldExtractItem = !isLastPathSegment || member is ExtractFromCollectionTraversal;
+                {
+                    // If not last path segment
+                    // or supposed to extract item
+                    bool shouldExtractItem = !isLastPathSegment || member is ExtractFromCollectionTraversal;
 
-                                                  if (shouldExtractItem)
-                                                      result = ExtractItemFromCollection(collection.Cast<object>().ToList(), member);
-                                              });
+                    if (shouldExtractItem)
+                        result = ExtractItemFromCollection(collection.Cast<object>().ToList(), member);
+                });
             }
 
             return result;
@@ -130,9 +130,9 @@ namespace GeniusCode.XtraReports.Design.Traversals
 
             // or, Extract specific item from collection
             member.TryAs<ExtractFromCollectionTraversal>(extractTraversal =>
-                                                             {
-                                                                 result = collection[extractTraversal.IndexToExtract];
-                                                             });
+            {
+                result = collection[extractTraversal.IndexToExtract];
+            });
 
             return result;
         }
@@ -142,7 +142,7 @@ namespace GeniusCode.XtraReports.Design.Traversals
         TraversedDatasourceResult IDataSourceTraverser.TraversePath(object datasource, string path)
         {
             var targetDataSource = Traverse(datasource, path);
-            return new TraversedDatasourceResult(datasource, targetDataSource);   
+            return new TraversedDatasourceResult(datasource, targetDataSource);
         }
     }
 }

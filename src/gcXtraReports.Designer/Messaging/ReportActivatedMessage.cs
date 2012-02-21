@@ -1,13 +1,14 @@
 using System.Linq;
+using DevExpress.XtraReports.UI;
 using GeniusCode.XtraReports.Runtime.Support;
 
 namespace GeniusCode.XtraReports.Designer.Messaging
 {
     public class ReportActivatedMessage
     {
-        public gcXtraReport MyReport { get; set; }
+        public XtraReport MyReport { get; set; }
 
-        public ReportActivatedMessage(gcXtraReport myReport)
+        public ReportActivatedMessage(XtraReport myReport)
         {
             MyReport = myReport;
         }

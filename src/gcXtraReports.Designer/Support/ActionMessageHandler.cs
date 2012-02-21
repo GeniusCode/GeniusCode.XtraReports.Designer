@@ -110,16 +110,13 @@ namespace GeniusCode.XtraReports.Designer.Support
         public void Handle(ReportActivatedBySubreportMessage message)
         {         
             // go to parent
-            var parentReport = message.SelectedSubreport.NavigateToMyReportBase();
+            var parentReport = message.SelectedSubreport.NavigateToBaseReport();
             // get datasource metadata from parent
             var parentDataSourceDefinition = _metadataAssociationRepository.GetCurrentAssociationForReport(parentReport);
             // get traversal path
             var path = GetTraversalPath(message.SelectedSubreport.Band);
             // set datasource on new report
             _dataSourceSetter.SetReportDatasource(message.NewReport,parentDataSourceDefinition,path);
-
-
-
         }
 
         public void Handle(DesignPanelPrintPreviewMessage message)

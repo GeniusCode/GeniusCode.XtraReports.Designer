@@ -6,10 +6,10 @@ namespace GeniusCode.XtraReports.Designer.Messaging
 {
     public class ReportActivatedBySubreportMessage
     {
-        public gcXtraReport NewReport { get; set; }
+        public XtraReport NewReport { get; set; }
         public SubreportBase SelectedSubreport { get; set; }
 
-        public ReportActivatedBySubreportMessage(gcXtraReport myReport, SubreportBase selectedSubreport)
+        public ReportActivatedBySubreportMessage(XtraReport myReport, SubreportBase selectedSubreport)
         {
             NewReport = myReport;
             SelectedSubreport = selectedSubreport;

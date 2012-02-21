@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
 using DevExpress.XtraReports.UI;
@@ -19,7 +18,7 @@ namespace XtraSubReport.Winforms.Specs.Steps
 {
     [Binding]
     [Scope(Feature = "Passing datasources at design time")]
-   public class Passing_datasources_at_design_time
+    public class Passing_datasources_at_design_time
     {
         IDataSourceSetter _setter;
         IDesignDataContext _dataContext;
@@ -34,7 +33,7 @@ namespace XtraSubReport.Winforms.Specs.Steps
         {
             _eventAggregator = new EventAggregator();
             _dataContext = Factory.CreateForDogTime(out _setter);
-            _messageHandler = new ActionMessageHandler(_setter,_eventAggregator,_dataContext.DesignDataDefinitionRepository,new ReportControllerFactory());
+            _messageHandler = new ActionMessageHandler(_setter, _eventAggregator, _dataContext.DesignDataDefinitionRepository, new ReportControllerFactory());
         }
 
         [Given(@"a datasource exists called DogTime")]
@@ -47,12 +46,12 @@ namespace XtraSubReport.Winforms.Specs.Steps
         public void GivenPersonReportExistsWithASubreportCalledDogReportInADetailReport()
         {
             _parentReport = new XtraReportWithSubReportInDetailReport().ConvertReportToMyReportBase();
-           
+
             var band = (DetailReportBand)_parentReport.Bands[BandKind.DetailReport];
             _container = (XRSubreport)band.Bands[BandKind.Detail].Controls[0];
         }
 
-        
+
         [Given(@"PersonReport exists with a subreport called PersonSubReport in a detail band")]
         public void GivenPersonReportExistsWithASubreportCalledPersonSubReportInADetailBand()
         {
@@ -62,7 +61,7 @@ namespace XtraSubReport.Winforms.Specs.Steps
         [Given(@"PersonReport loads the DogTime datasource")]
         public void PersonReportLoadsTheDogTimeDatasource()
         {
-            _setter.SetReportDatasource(_parentReport,_datasourceMetadata);
+            _setter.SetReportDatasource(_parentReport, _datasourceMetadata);
         }
 
         [Given(@"a new report instance exists")]
@@ -74,7 +73,7 @@ namespace XtraSubReport.Winforms.Specs.Steps
         [When(@"A ReportActivatedBySubreportMessage occurs which contains the new report instance")]
         public void WhenAReportActivatedBySubreportMessageOccursWhichContainsTheNewReportInstance()
         {
-            _eventAggregator.Publish(new ReportActivatedBySubreportMessage(_newReport,_container));
+            _eventAggregator.Publish(new ReportActivatedBySubreportMessage(_newReport, _container));
         }
 
 
@@ -82,7 +81,8 @@ namespace XtraSubReport.Winforms.Specs.Steps
         public void ThenTheNewReportInstanceSDatasourceShouldBeTheFirstDogOfTheFirstPersonFromPersonReportSDatasource()
         {
             var dog = (Dog)((List<object>)_newReport.DataSource).Single();
-            var peoples = _parentReport.DataSource.As<IEnumerable>().Cast<Person2>().ToList();
+            var peoples = (List<Person2>)_parentReport.DataSource;
+
             peoples[0].Dogs[0].Name.Should().Be(dog.Name);
         }
 
