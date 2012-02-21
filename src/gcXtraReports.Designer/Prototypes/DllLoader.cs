@@ -26,11 +26,18 @@ namespace GeniusCode.XtraReports.Designer.Prototypes
         private void LoadDll(string path)
         {
             var justTheFileName = Path.GetFileName(path);
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+            //DO NOT LOAD THIS DLL EVER!
+            if (justTheFileName == "gcXtraReports.Core.dll") return;
+
+/*            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             var existingFiles = assemblies.Select(a => Path.GetFileName(a.Location)).ToList();
 
             if (!existingFiles.Contains(justTheFileName)) 
-                Assembly.LoadFrom(path);
+                Assembly.LoadFrom(path);*/
+
+
+            Assembly.LoadFrom(path);
         }
 
         public void LoadDllsInDirectory(string path)
