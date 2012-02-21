@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -14,6 +15,7 @@ namespace GeniusCode.XtraReports.Designer.Popups
         public TraceOutput()
         {
             InitializeComponent();
+            linkLabel1.Text = Program.LogPath;
         }
 
         public TraceOutput(IEventAggregator eventAggregator): this()
@@ -35,6 +37,11 @@ namespace GeniusCode.XtraReports.Designer.Popups
         private void TraceOutput_FormClosed(object sender, FormClosedEventArgs e)
         {
             _eventAggregator.Unsubscribe(this);
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start(linkLabel1.Text);
         }
 
     }

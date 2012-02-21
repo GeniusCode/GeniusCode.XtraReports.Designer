@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
 using DevExpress.XtraReports.UI;
@@ -81,8 +82,7 @@ namespace XtraSubReport.Winforms.Specs.Steps
         public void ThenTheNewReportInstanceSDatasourceShouldBeTheFirstDogOfTheFirstPersonFromPersonReportSDatasource()
         {
             var dog = (Dog)((List<object>)_newReport.DataSource).Single();
-            var peoples = (List<Person2>)_parentReport.DataSource;
-
+            var peoples = _parentReport.DataSource.As<IEnumerable>().Cast<Person2>().ToList();
             peoples[0].Dogs[0].Name.Should().Be(dog.Name);
         }
 

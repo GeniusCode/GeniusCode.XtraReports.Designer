@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -17,8 +18,19 @@ namespace GeniusCode.XtraReports.Designer.Prototypes
             {
                 var file = assemblyFilePaths[index];
                 _logger.Trace("Loading dll {0} of {1} from {2}", index + 1, assemblyFilePaths.Count, file);
-                Assembly.LoadFrom(file);
+                LoadDll(file);
             }
+        }
+
+        //TODO: Unit Test this is required to avoid errors while loading on the fly
+        private void LoadDll(string path)
+        {
+            var justTheFileName = Path.GetFileName(path);
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var existingFiles = assemblies.Select(a => Path.GetFileName(a.Location)).ToList();
+
+            if (!existingFiles.Contains(justTheFileName)) 
+                Assembly.LoadFrom(path);
         }
 
         public void LoadDllsInDirectory(string path)

@@ -100,7 +100,7 @@ namespace GeniusCode.XtraReports.Designer.Popups
             this.layoutControl1.Name = "layoutControl1";
             this.layoutControl1.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(891, 237, 250, 350);
             this.layoutControl1.Root = this.layoutControlGroup1;
-            this.layoutControl1.Size = new System.Drawing.Size(549, 485);
+            this.layoutControl1.Size = new System.Drawing.Size(947, 214);
             this.layoutControl1.TabIndex = 2;
             this.layoutControl1.Text = "layoutControl1";
             // 
@@ -111,7 +111,7 @@ namespace GeniusCode.XtraReports.Designer.Popups
             this.gridControl1.MainView = this.gridView1;
             this.gridControl1.MenuManager = this.barManager1;
             this.gridControl1.Name = "gridControl1";
-            this.gridControl1.Size = new System.Drawing.Size(525, 461);
+            this.gridControl1.Size = new System.Drawing.Size(923, 190);
             this.gridControl1.TabIndex = 4;
             this.gridControl1.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -246,12 +246,12 @@ namespace GeniusCode.XtraReports.Designer.Popups
             // dockPanel1
             // 
             this.dockPanel1.Controls.Add(this.dockPanel1_Container);
-            this.dockPanel1.Dock = DevExpress.XtraBars.Docking.DockingStyle.Right;
+            this.dockPanel1.Dock = DevExpress.XtraBars.Docking.DockingStyle.Bottom;
             this.dockPanel1.ID = new System.Guid("0925c082-bc48-48ba-826b-baf6e1e2686b");
-            this.dockPanel1.Location = new System.Drawing.Point(549, 22);
+            this.dockPanel1.Location = new System.Drawing.Point(0, 236);
             this.dockPanel1.Name = "dockPanel1";
-            this.dockPanel1.OriginalSize = new System.Drawing.Size(398, 200);
-            this.dockPanel1.Size = new System.Drawing.Size(398, 485);
+            this.dockPanel1.OriginalSize = new System.Drawing.Size(398, 271);
+            this.dockPanel1.Size = new System.Drawing.Size(947, 271);
             this.dockPanel1.Text = "Preview Data";
             this.dockPanel1.VisibilityChanged += new DevExpress.XtraBars.Docking.VisibilityChangedEventHandler(this.dockPanel1_VisibilityChanged);
             // 
@@ -260,7 +260,7 @@ namespace GeniusCode.XtraReports.Designer.Popups
             this.dockPanel1_Container.Controls.Add(this.layoutControl2);
             this.dockPanel1_Container.Location = new System.Drawing.Point(4, 23);
             this.dockPanel1_Container.Name = "dockPanel1_Container";
-            this.dockPanel1_Container.Size = new System.Drawing.Size(390, 458);
+            this.dockPanel1_Container.Size = new System.Drawing.Size(939, 244);
             this.dockPanel1_Container.TabIndex = 0;
             // 
             // layoutControl2
@@ -272,7 +272,7 @@ namespace GeniusCode.XtraReports.Designer.Popups
             this.layoutControl2.Name = "layoutControl2";
             this.layoutControl2.OptionsCustomizationForm.DesignTimeCustomizationFormPositionAndSize = new System.Drawing.Rectangle(993, 236, 250, 350);
             this.layoutControl2.Root = this.layoutControlGroup2;
-            this.layoutControl2.Size = new System.Drawing.Size(390, 458);
+            this.layoutControl2.Size = new System.Drawing.Size(939, 244);
             this.layoutControl2.TabIndex = 0;
             this.layoutControl2.Text = "layoutControl2";
             // 
@@ -283,7 +283,7 @@ namespace GeniusCode.XtraReports.Designer.Popups
             this.previewDataGridControl.MainView = this.gridView2;
             this.previewDataGridControl.MenuManager = this.barManager1;
             this.previewDataGridControl.Name = "previewDataGridControl";
-            this.previewDataGridControl.Size = new System.Drawing.Size(366, 410);
+            this.previewDataGridControl.Size = new System.Drawing.Size(915, 196);
             this.previewDataGridControl.TabIndex = 6;
             this.previewDataGridControl.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView2});
@@ -295,11 +295,11 @@ namespace GeniusCode.XtraReports.Designer.Popups
             // 
             // pathTextEdit
             // 
-            this.pathTextEdit.Location = new System.Drawing.Point(38, 426);
+            this.pathTextEdit.Location = new System.Drawing.Point(38, 212);
             this.pathTextEdit.MenuManager = this.barManager1;
             this.pathTextEdit.Name = "pathTextEdit";
             this.pathTextEdit.Properties.ReadOnly = true;
-            this.pathTextEdit.Size = new System.Drawing.Size(340, 20);
+            this.pathTextEdit.Size = new System.Drawing.Size(889, 20);
             this.pathTextEdit.StyleController = this.layoutControl2;
             this.pathTextEdit.TabIndex = 5;
             // 
@@ -313,7 +313,7 @@ namespace GeniusCode.XtraReports.Designer.Popups
             this.layoutControlItem3});
             this.layoutControlGroup2.Location = new System.Drawing.Point(0, 0);
             this.layoutControlGroup2.Name = "layoutControlGroup2";
-            this.layoutControlGroup2.Size = new System.Drawing.Size(390, 458);
+            this.layoutControlGroup2.Size = new System.Drawing.Size(939, 244);
             this.layoutControlGroup2.Text = "layoutControlGroup2";
             this.layoutControlGroup2.TextVisible = false;
             // 
@@ -321,9 +321,9 @@ namespace GeniusCode.XtraReports.Designer.Popups
             // 
             this.layoutControlItem2.Control = this.pathTextEdit;
             this.layoutControlItem2.CustomizationFormText = "Path";
-            this.layoutControlItem2.Location = new System.Drawing.Point(0, 414);
+            this.layoutControlItem2.Location = new System.Drawing.Point(0, 200);
             this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Size = new System.Drawing.Size(370, 24);
+            this.layoutControlItem2.Size = new System.Drawing.Size(919, 24);
             this.layoutControlItem2.Text = "Path";
             this.layoutControlItem2.TextSize = new System.Drawing.Size(22, 13);
             // 
@@ -333,7 +333,7 @@ namespace GeniusCode.XtraReports.Designer.Popups
             this.layoutControlItem3.CustomizationFormText = "layoutControlItem3";
             this.layoutControlItem3.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem3.Name = "layoutControlItem3";
-            this.layoutControlItem3.Size = new System.Drawing.Size(370, 414);
+            this.layoutControlItem3.Size = new System.Drawing.Size(919, 200);
             this.layoutControlItem3.Text = "layoutControlItem3";
             this.layoutControlItem3.TextLocation = DevExpress.Utils.Locations.Top;
             this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
@@ -349,7 +349,7 @@ namespace GeniusCode.XtraReports.Designer.Popups
             this.layoutControlItem1});
             this.layoutControlGroup1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlGroup1.Name = "Root";
-            this.layoutControlGroup1.Size = new System.Drawing.Size(549, 485);
+            this.layoutControlGroup1.Size = new System.Drawing.Size(947, 214);
             this.layoutControlGroup1.Text = "Root";
             // 
             // layoutControlItem1
@@ -358,7 +358,7 @@ namespace GeniusCode.XtraReports.Designer.Popups
             this.layoutControlItem1.CustomizationFormText = "layoutControlItem1";
             this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(529, 465);
+            this.layoutControlItem1.Size = new System.Drawing.Size(927, 194);
             this.layoutControlItem1.Text = "layoutControlItem1";
             this.layoutControlItem1.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem1.TextToControlDistance = 0;

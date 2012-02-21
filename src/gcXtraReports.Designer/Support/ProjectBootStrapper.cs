@@ -47,18 +47,25 @@ namespace GeniusCode.XtraReports.Designer.Support
             _cloner = cloner;
             _loader = loader;
 
-            var rootPath = Assembly.GetEntryAssembly() == null
+            var applicationRoot = Assembly.GetEntryAssembly() == null
                                ? Path.GetTempPath()
                                : Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 
-            var pluginsPath = Path.Combine(rootPath, PluginsFolderName);
+            var pluginsRootPath = Path.Combine(applicationRoot, PluginsFolderName);
+
+            //TODO: Unit test this!
+            if(Directory.Exists(pluginsRootPath))
+            {
+                Directory.Delete(pluginsRootPath, true);
+            }
+            Directory.CreateDirectory(pluginsRootPath);
 
             _logger.Trace("Project path: {0}", _projectPath);
-            _logger.Trace("Plugins path: {0}", pluginsPath);
+            _logger.Trace("Plugins path: {0}", pluginsRootPath);
 
-            _reportsTargetFolderPath = Path.Combine(pluginsPath, _reportsFolderName);
-            _datasourceTargetFolderPath = Path.Combine(pluginsPath, _datasourceFolderName);
-            _actionsTargetFolderPath = Path.Combine(pluginsPath, _actionsFolderName);
+            _reportsTargetFolderPath = Path.Combine(pluginsRootPath, _reportsFolderName);
+            _datasourceTargetFolderPath = Path.Combine(pluginsRootPath, _datasourceFolderName);
+            _actionsTargetFolderPath = Path.Combine(pluginsRootPath, _actionsFolderName);
 
         }
 
@@ -96,7 +103,7 @@ namespace GeniusCode.XtraReports.Designer.Support
                                    {
                                        FileName = fullPath,
                                        RedirectStandardError = false,
-                                       RedirectStandardOutput = true,
+                                       RedirectStandardOutput = false,
                                        UseShellExecute = false,
                                        WorkingDirectory = _projectPath
                                    }
@@ -104,9 +111,9 @@ namespace GeniusCode.XtraReports.Designer.Support
             proc.Start();
             proc.WaitForExit();
 
-            var output = proc.StandardOutput.ReadToEnd();
+            /*var output = proc.StandardOutput.ReadToEnd();
 
-            _logger.Trace("output from bootstrapper: {0}", output);
+            _logger.Trace("output from bootstrapper: {0}", output);*/
 
         }
 

@@ -36,6 +36,7 @@ namespace GeniusCode.XtraReports.Designer
         internal static string ProjectReportPath;
         // NLog - Helpful to diagnose if a DLL cannot be found, etc.
         private static Logger _logger;
+        public static string LogPath;
 
         /// <summary>
         /// The main entry point for the application.
@@ -43,6 +44,7 @@ namespace GeniusCode.XtraReports.Designer
         [STAThread]
         static void Main()
         {
+
             SetupNLog();
             
             ProjectBootStrapper projectBootstrapper;
@@ -70,7 +72,6 @@ namespace GeniusCode.XtraReports.Designer
             var bs = new AppBootStrapper(
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), DefaultRootFolderName));
 
-
             var mode = bs.DetectProjectMode();
 
             switch (mode)
@@ -79,9 +80,17 @@ namespace GeniusCode.XtraReports.Designer
                     new NoProjectsExistWarning(bs).ShowDialog();
                     return false;
                 case AppProjectsStructureMode.MultipleUnchosen:
-                    new ChooseProject(bs).ShowDialog();
+                    var form = new ChooseProject(bs.GetProjects());
+                    form.ShowDialog();
+
+                    if(!String.IsNullOrWhiteSpace(form.SelectedPath))
+                        bs.SetProjectName(form.SelectedPath);
+
                     if (bs.DetectProjectMode() == AppProjectsStructureMode.MultipleUnchosen)
-                        return false;
+                        return false;                       
+                    break;
+                case AppProjectsStructureMode.Single:
+                    bs.SetProjectNameToSingle();
                     break;
             }
             var debug = new TraceOutput(EventAggregatorSingleton.Instance);
@@ -89,6 +98,7 @@ namespace GeniusCode.XtraReports.Designer
             projectBootstrapper = bs.GetProjectBootstrapper(ReportsDirectoryName, DataSourceDirectoryName,
                                                                 ActionsDirectoryName);
             
+
             projectBootstrapper.ExecuteProjectBootStrapperFile(BootStrapperBatchFileName);
             projectBootstrapper.CopyProjectFiles();
             projectBootstrapper.LoadProjectAssemblies();
@@ -104,10 +114,10 @@ namespace GeniusCode.XtraReports.Designer
 
             var actionTypes = (from a in AppDomain.CurrentDomain.GetAssemblies()
                                from t2 in a.GetTypes()
-                               where typeof (IReportControlAction).IsAssignableFrom(t2) && ! t2.IsAbstract
-                               && t2.Assembly.ManifestModule.Name != "gcXtraReports.Runtime.dll"
-                               && t2.Assembly.ManifestModule.Name != "gcXtraReports.Design.dll"
-                               && t2.Assembly.ManifestModule.Name != "gcXtraReports.Designer.dll"
+                               where typeof (IReportControlAction).IsAssignableFrom(t2) && !t2.IsAbstract
+                                     && t2.Assembly.ManifestModule.Name != "gcXtraReports.Runtime.dll"
+                                     && t2.Assembly.ManifestModule.Name != "gcXtraReports.Design.dll"
+                                     && t2.Assembly.ManifestModule.Name != "gcXtraReports.Designer.dll"
                                select t2).ToList();
 
             var datasourceProviderTypes = (from a in AppDomain.CurrentDomain.GetAssemblies()
@@ -204,11 +214,25 @@ namespace GeniusCode.XtraReports.Designer
             //ogManager.Configuration.LoggingRules.Add(new LoggingRule("*", LogLevel.Trace, target));
             _logger = LogManager.GetCurrentClassLogger();
 
+            var logPath = Path.Combine(Path.GetTempPath(), "gcXtraReport.Designer");
+            if (!Directory.Exists(logPath))
+                Directory.CreateDirectory(logPath);
+
+            string fileName = string.Format("text-{0:yyyy-MM-dd_hh-mm-ss-tt}.txt", DateTime.Now);
+
+
+            GlobalDiagnosticsContext.Set("logdir", logPath);
+            GlobalDiagnosticsContext.Set("logfilename", fileName);
+
+            LogPath = logPath + "\\" + fileName;
+
             // Add the event handler for handling non-UI thread exceptions 
             AppDomain.CurrentDomain.UnhandledException += (s, e) =>
             {
                 var exception = (Exception)e.ExceptionObject;
                 _logger.FatalException("Report Designer encountered unhandled exception", exception);
+                MessageBox.Show("An exception has occured. Please check the log file at:" + LogPath );
+                
             };
         }
 

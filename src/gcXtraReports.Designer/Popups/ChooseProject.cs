@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using GeniusCode.XtraReports.Designer.Support;
@@ -7,13 +8,13 @@ namespace GeniusCode.XtraReports.Designer.Popups
 {
     public partial class ChooseProject : Form
     {
-        private readonly AppBootStrapper _bootStrapper;
-
         public ChooseProject()
         {
             InitializeComponent();
             DevExpress.LookAndFeel.UserLookAndFeel.Default.SetSkinStyle("VS2010");
         }
+
+        public string SelectedPath { get; private set; }
 
         private void acceptAndContinueBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
@@ -27,7 +28,7 @@ namespace GeniusCode.XtraReports.Designer.Popups
 
             try
             {
-                _bootStrapper.SetProjectName(item);
+                SelectedPath = item;
                 Close();
             }
             catch (Exception ex)
@@ -36,18 +37,12 @@ namespace GeniusCode.XtraReports.Designer.Popups
                                 MessageBoxIcon.Error);
 
             }
-            
-
         }
 
-        public ChooseProject(AppBootStrapper bootStrapper) : this()
+        public ChooseProject(IEnumerable<string> projects) : this()
         {
-            _bootStrapper = bootStrapper;
 
-            this.multipleProjectsListBoxControl.DataSource = _bootStrapper.GetProjects().ToArray();
-
+            multipleProjectsListBoxControl.DataSource = projects;
         }
-
-
     }
 }

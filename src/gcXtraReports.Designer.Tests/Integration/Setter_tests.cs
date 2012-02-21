@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
@@ -61,9 +62,9 @@ namespace XtraSubReports.Winforms.Tests.Integration
             // then:
             newSubReport.DataSource.Should().NotBeNull();
             var dog = (Dog)((List<object>) newSubReport.DataSource).Single();
-            var peoples = (List<Person2>) report2.DataSource;
+            var peoples = (List<object>) report2.DataSource;
 
-            peoples[0].Dogs[0].Name.Should().Be(dog.Name);
+            peoples.OfType<Person2>().First().Dogs[0].Name.Should().Be(dog.Name);
         }
 
         private static DesignReportMetadataAssociationRepository init(out DataSourceSetter setter,
@@ -88,9 +89,9 @@ namespace XtraSubReports.Winforms.Tests.Integration
             var report = new gcXtraReport();
             setter.SetReportDatasource(report, md);
             report.DataSource.Should().NotBeNull();
-            var persons = ((List<Person2>)report.DataSource);
+            var persons = ((List<object>)report.DataSource);
 
-            persons.Count().Should().Be(3);
+            persons.Count().Should().Be(1);
         }
 
         [Test]
@@ -104,7 +105,7 @@ namespace XtraSubReports.Winforms.Tests.Integration
             var report = new gcXtraReport();
             setter.SetReportDatasource(report, md,"Dogs");
             report.DataSource.Should().NotBeNull();
-            var dogs = ((List<Dog>) report.DataSource);
+            var dogs = report.DataSource.As<IEnumerable>().Cast<Dog>();
 
             dogs.Count().Should().Be(2);
         }

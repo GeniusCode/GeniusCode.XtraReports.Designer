@@ -14,14 +14,10 @@ namespace XtraSubReports.Winforms.Tests.Unit
         public void Should_auto_create_folder()
         {
             var tempPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
-
             Directory.Exists(tempPath).Should().BeFalse("Test is in invalid state, cannot proceed");
             var bootStrapper = new AppBootStrapper(tempPath);
-
             bootStrapper.CreateRootPathIfNeeded();
-
             Directory.Exists(tempPath).Should().BeTrue("AppBootStrapper did not create a temp path as expected");
-
         }
 
         [Test]
@@ -33,16 +29,21 @@ namespace XtraSubReports.Winforms.Tests.Unit
             bs.DetectProjectMode().Should().Be(AppProjectsStructureMode.None);
         }
 
-
         [Test]
-        public void Should_detect_when_no_path_projects_exist()
+        public void Should_detect_when_single_projects_exist()
         {
             //Given that the path already exists;
-            var tempPath = GetNewEmptyPathThatDoesntExists();
-            var bs = new AppBootStrapper(tempPath);
-            bs.DetectProjectMode().Should().Be(AppProjectsStructureMode.None);
-        }
+            var tempPath = GetNewEmptyPathThatExists();
+            // make project folder
 
+            var projectPath = Path.Combine(tempPath, "MyProject");
+            Directory.CreateDirectory(projectPath);
+            var bs = new AppBootStrapper(tempPath);
+            bs.DetectProjectMode().Should().Be(AppProjectsStructureMode.Single);
+            bs.SetProjectNameToSingle();
+
+            bs.GetProjectBootstrapper("Reports", "Datasources", "Actions").ProjectPath.Should().Be(projectPath);
+        }
 
 
         [Test]

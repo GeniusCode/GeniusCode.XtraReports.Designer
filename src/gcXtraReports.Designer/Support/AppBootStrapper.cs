@@ -72,5 +72,14 @@ namespace GeniusCode.XtraReports.Designer.Support
                 throw new DirectoryNotFoundException("Project not found");
             }           
         }
+
+        public void SetProjectNameToSingle()
+        {
+            var projects = GetProjects().ToList();
+            if(projects.Count() == 1)
+                SetProjectName(projects.Single());
+            else
+                throw new Exception("Multiple projects, or no projects available.  Project not set.");
+        }
     }
 }

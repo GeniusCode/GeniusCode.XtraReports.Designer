@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using GeniusCode.Framework.Extensions;
-using GeniusCode.Framework.Support.Refection;
+using gcExtensions;
+using Fasterflect;
 
 namespace GeniusCode.XtraReports.Design.Traversals
 {
@@ -43,14 +43,14 @@ namespace GeniusCode.XtraReports.Design.Traversals
             if (path == null)
                 return new MemberTraversal[] { };
 
-            var split = path.Split(PathDelimiter);
+            var split = path.Split(new [] {PathDelimiter}, StringSplitOptions.None);
 
-            return split.Select(segment => ConvertPathSegmentToTraversal(segment));
+            return split.Select(ConvertPathSegmentToTraversal);
         }
 
         private MemberTraversal ConvertPathSegmentToTraversal(string segment)
         {
-            Match match = null;
+            Match match;
 
             try
             {
@@ -99,7 +99,7 @@ namespace GeniusCode.XtraReports.Design.Traversals
                     result = target;
                 else
                     // Get Related Member
-                    result = ReflectionHelper.GetMemberValue(target, member.MemberName);
+                    result = target.GetPropertyValue(member.MemberName);// ReflectionHelper.GetMemberValue(target, member.MemberName);
 
                 // Is it a Collection?
                 result.TryAs<IEnumerable>(collection =>
