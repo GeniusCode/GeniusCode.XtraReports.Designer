@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Forms;
 using Caliburn.Micro;
+using DevExpress.XtraReports.UI;
 using GeniusCode.XtraReports.Design;
 using GeniusCode.XtraReports.Design.Datasources;
 using GeniusCode.XtraReports.Designer.Messaging;
@@ -9,22 +10,15 @@ using GeniusCode.XtraReports.Runtime.Support;
 
 namespace GeniusCode.XtraReports.Designer.Popups
 {
-    public enum ImageIndex : int
-    {
-        Folder = 0,
-        DataSource,
-        Unavailable
-    }
-
     public partial class SelectDesignTimeDataSourceForm : Form
     {
         private readonly IDesignDataContext _context;
 
-        readonly gcXtraReport _report;
+        readonly XtraReport _report;
         private readonly IEventAggregator _aggregator;
         private readonly IDataSourceTraverser _traverser;
 
-        public SelectDesignTimeDataSourceForm(IDesignDataContext context, gcXtraReport report, IEventAggregator aggregator, IDataSourceTraverser traverser)
+        public SelectDesignTimeDataSourceForm(IDesignDataContext context, XtraReport report, IEventAggregator aggregator, IDataSourceTraverser traverser)
         {
             InitializeComponent();
 
@@ -58,16 +52,56 @@ namespace GeniusCode.XtraReports.Designer.Popups
 
         private void barButtonItem1_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
+            SaveAndClose();
+        }
+
+        private void SaveAndClose()
+        {
             if (iReportDatasourceMetadataBindingSource.Current == null) return;
 
-            var metadata = (IReportDatasourceMetadata) iReportDatasourceMetadataBindingSource.Current;
-            var datasource = _context.DesignDataRepository.GetDataSourceByUniqueId(metadata.UniqueId);
+            var datasource = GetDataSourceForCurrentMetadata();
             var traversedDatasourceResult = _traverser.TraversePath(datasource, pathTextEdit.Text);
 
-            var toReturn = new ReportDatasourceMetadataWithTraversal(metadata,pathTextEdit.Text,traversedDatasourceResult.TraversedDataType);
+            var toReturn = new ReportDatasourceMetadataWithTraversal(CurrentMetadata, pathTextEdit.Text,
+                                                                     traversedDatasourceResult.TraversedDataType);
 
             _aggregator.Publish(new DataSourceSelectedForReportMessage(toReturn, _report));
             Close();
+        }
+
+        private IReportDatasourceMetadata CurrentMetadata
+        {
+            get { return iReportDatasourceMetadataBindingSource.Current as IReportDatasourceMetadata; }
+        }
+
+        private object GetDataSourceForCurrentMetadata()
+        {
+            if (iReportDatasourceMetadataBindingSource.Current == null)
+                return null;
+
+            var metadata = (IReportDatasourceMetadata) iReportDatasourceMetadataBindingSource.Current;
+            return _context.DesignDataRepository.GetDataSourceByUniqueId(metadata.UniqueId);
+        }
+
+        private void iReportDatasourceMetadataBindingSource_CurrentChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void iReportDatasourceMetadataBindingSource_PositionChanged(object sender, EventArgs e)
+        {
+            DrawPreviewTab();
+        }
+
+        private void DrawPreviewTab()
+        {
+            if (this.dockPanel1.Visible)
+                previewDataBindingSource.DataSource = GetDataSourceForCurrentMetadata();
+        }
+
+        private void dockPanel1_VisibilityChanged(object sender, DevExpress.XtraBars.Docking.VisibilityChangedEventArgs e)
+        {
+            DrawPreviewTab();
         }
 
         /*private IEnumerable<DesignTimeDataSourceTreeItem> BuildDesignTimeDataSourceTreeItems(gcXtraReport report, out DynamicTree<DesignTimeDataSourceTreeItem> tree, out List<DesignTimeDataSourceTreeItem> flatList)

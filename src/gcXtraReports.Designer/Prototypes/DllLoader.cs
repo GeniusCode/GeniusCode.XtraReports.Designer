@@ -16,7 +16,7 @@ namespace GeniusCode.XtraReports.Designer.Prototypes
             for (var index = 0; index < assemblyFilePaths.Count; index++)
             {
                 var file = assemblyFilePaths[index];
-                _logger.Trace("Loading dll {0} or {1} from {2}", index + 1, assemblyFilePaths.Count);
+                _logger.Trace("Loading dll {0} of {1} from {2}", index + 1, assemblyFilePaths.Count, file);
                 Assembly.LoadFrom(file);
             }
         }

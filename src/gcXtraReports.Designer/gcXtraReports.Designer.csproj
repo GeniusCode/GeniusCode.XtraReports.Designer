@@ -83,6 +83,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Autofac.2.5.2.830\lib\NET40\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.BonusSkins.v11.2, Version=11.2.8.0, Culture=neutral, PublicKeyToken=95fc6c5621878f0a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Printing.v11.2.Core, Version=11.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a">
       <Private>True</Private>
     </Reference>
@@ -136,6 +137,7 @@
     <Compile Include="DesignDataContext2.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Messaging\DataSourceSelectedForReportMessage.cs" />
+    <Compile Include="Popups\ImageIndex.cs" />
     <Compile Include="Popups\SelectDesignTimeDataSourceForm.cs">
       <SubType>Form</SubType>
     </Compile>

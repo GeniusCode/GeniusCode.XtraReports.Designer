@@ -1,4 +1,5 @@
 using System.Linq;
+using DevExpress.XtraReports.UI;
 using GeniusCode.XtraReports.Design;
 using GeniusCode.XtraReports.Design.Datasources;
 using GeniusCode.XtraReports.Runtime;
@@ -21,12 +22,12 @@ namespace GeniusCode.XtraReports.Designer.Support
             _dataSourceTraverser = dataSourceTraverser;
         }
 
-        public void SetReportDatasource(gcXtraReport report, IReportDatasourceMetadata md)
+        public void SetReportDatasource(XtraReport report, IReportDatasourceMetadata md)
         {
             SetReportDatasource(report,md,string.Empty);
         }
 
-        public void SetReportDatasource(gcXtraReport report, IReportDatasourceMetadata md, string traversalPath)
+        public void SetReportDatasource(XtraReport report, IReportDatasourceMetadata md, string traversalPath)
         {
             //Fetch datasource from repository
             var datasourceObject = _designDataRepository.GetDataSourceByUniqueId(md.UniqueId);

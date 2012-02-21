@@ -1,14 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
+using DevExpress.XtraReports.UI;
 using GeniusCode.XtraReports.Runtime.Support;
 
 namespace GeniusCode.XtraReports.Design
 {
     public interface IDesignReportMetadataAssociationRepository
     {
-        IEnumerable<IReportDatasourceMetadataWithTraversal> GetAssociationsForReport(gcXtraReport report);
-        IReportDatasourceMetadataWithTraversal GetCurrentAssociationForReport(gcXtraReport report);
-        void AssociateWithReport(IReportDatasourceMetadataWithTraversal definition, gcXtraReport report);
-        void AssociateWithReportAsCurrent(IReportDatasourceMetadataWithTraversal definition, gcXtraReport report);
+        IEnumerable<IReportDatasourceMetadataWithTraversal> GetAssociationsForReport(XtraReport report);
+        IReportDatasourceMetadataWithTraversal GetCurrentAssociationForReport(XtraReport report);
+        void AssociateWithReport(IReportDatasourceMetadataWithTraversal definition, XtraReport report);
+        void AssociateWithReportAsCurrent(IReportDatasourceMetadataWithTraversal definition, XtraReport report);
     }
 }

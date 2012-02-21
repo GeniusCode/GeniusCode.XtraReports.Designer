@@ -7,6 +7,7 @@ using Autofac;
 using Caliburn.Micro;
 using DevExpress.XtraBars;
 using DevExpress.XtraReports.Extensions;
+using DevExpress.XtraReports.UI;
 using DevExpress.XtraReports.UserDesigner;
 using GeniusCode.XtraReports.Design;
 using GeniusCode.XtraReports.Design.Traversals;
@@ -55,7 +56,10 @@ namespace GeniusCode.XtraReports.Designer
  
             var extension = new CustomRootDirectoryStorageExtension(ProjectReportPath);
             ReportStorageExtension.RegisterExtensionGlobal(extension);
-            
+
+            DevExpress.Skins.SkinManager.EnableFormSkinsIfNotVista();
+            //Here we specify the skin to use by its name   		
+
             Application.Run(form);
         }
 
@@ -158,11 +162,10 @@ namespace GeniusCode.XtraReports.Designer
                 }
 
                 var report = form.DesignMdiController.ActiveDesignPanel.Report;
-                report.TryAs<gcXtraReport>(myReport =>
-                                               {
-                                                   PromptSelectDatasource(form, myReport, dataContext);
+                
+
+                                                   PromptSelectDatasource(form, report, dataContext);
                                                    form.RedrawFieldListOnActiveDesignPanel();
-                                               });
             };
 
             // Add Datasource Button
@@ -179,7 +182,7 @@ namespace GeniusCode.XtraReports.Designer
         
 
 
-        private static void PromptSelectDatasource(XRDesignForm form, gcXtraReport report, IDesignDataContext dataContext)
+        private static void PromptSelectDatasource(XRDesignForm form, XtraReport report, IDesignDataContext dataContext)
         {
             Form dialog = null;
 

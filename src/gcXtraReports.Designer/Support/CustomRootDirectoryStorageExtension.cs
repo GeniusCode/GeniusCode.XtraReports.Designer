@@ -21,7 +21,7 @@ namespace GeniusCode.XtraReports.Designer.Support
 
         protected override string RootDirectory
         {
-            get { return _rootDirectory; }
+            get { return _rootDirectory; }  
         }
     }
 }

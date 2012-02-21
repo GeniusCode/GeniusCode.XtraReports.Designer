@@ -12,6 +12,7 @@ namespace GeniusCode.XtraReports.Designer.Popups
         public ChooseProject()
         {
             InitializeComponent();
+            DevExpress.LookAndFeel.UserLookAndFeel.Default.SetSkinStyle("VS2010");
         }
 
         private void acceptAndContinueBarButtonItem_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)

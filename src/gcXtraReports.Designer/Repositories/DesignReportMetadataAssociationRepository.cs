@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using DevExpress.XtraReports.UI;
 using GeniusCode.XtraReports.Design;
 using GeniusCode.XtraReports.Runtime.Support;
 using gcExtensions;
@@ -16,20 +17,20 @@ namespace GeniusCode.XtraReports.Designer.Repositories
             _allItemsDictionary = new Dictionary<int, HashSet<IReportDatasourceMetadataWithTraversal>>();
         }
 
-        public IEnumerable<IReportDatasourceMetadataWithTraversal> GetAssociationsForReport(gcXtraReport report)
+        public IEnumerable<IReportDatasourceMetadataWithTraversal> GetAssociationsForReport(XtraReport report)
         {
             return _allItemsDictionary.GetOrCreateValue(report.GetHashCode(),
                                                         () => new HashSet<IReportDatasourceMetadataWithTraversal>());
         }
 
-        public IReportDatasourceMetadataWithTraversal GetCurrentAssociationForReport(gcXtraReport report)
+        public IReportDatasourceMetadataWithTraversal GetCurrentAssociationForReport(XtraReport report)
         {
             IReportDatasourceMetadataWithTraversal output;
             _currentlySelectedDictionary.TryGetValue(report.GetHashCode(), out output);
             return output;
         }
 
-        public void AssociateWithReport(IReportDatasourceMetadataWithTraversal definition, gcXtraReport report)
+        public void AssociateWithReport(IReportDatasourceMetadataWithTraversal definition, XtraReport report)
         {
             var hashset = _allItemsDictionary.GetOrCreateValue(report.GetHashCode(),
                                                                () => new HashSet<IReportDatasourceMetadataWithTraversal>());
@@ -37,7 +38,7 @@ namespace GeniusCode.XtraReports.Designer.Repositories
                 hashset.Add(definition);
         }
 
-        public void AssociateWithReportAsCurrent(IReportDatasourceMetadataWithTraversal definition, gcXtraReport report)
+        public void AssociateWithReportAsCurrent(IReportDatasourceMetadataWithTraversal definition, XtraReport report)
         {
             _currentlySelectedDictionary.AddIfUniqueOrReplace(definition, report.GetHashCode());
         }
