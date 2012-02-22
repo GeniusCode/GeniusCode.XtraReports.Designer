@@ -10,8 +10,7 @@ namespace GeniusCode.XtraReports.Designer.Support
     {       
         protected override void Write(LogEventInfo logEvent)
         {
-            var logMessage = Layout.Render(logEvent);
-            EventAggregatorSingleton.Instance.Publish(new NLogMessage(logEvent));
+            Program.DefaultEventAggregator.Publish(new NLogMessage(logEvent));
         }
     }
 }

@@ -40,17 +40,17 @@ namespace XtraSubReports.Winforms.Tests.Integration
 
             // given a report
             var report = new XtraReportWithSubReportInDetailReport();
-            var report2 = report.CloneLayoutAsMyReportBase();
+
 
 
 
             // given the parent has a datasource
             IReportDatasourceMetadata metadata = datarep.GetAvailableMetadatas().Single(a => a.UniqueId == "DogTime");
-            setter.SetReportDatasource(report2, metadata);
+            setter.SetReportDatasource(report, metadata);
 
             // given a subreport in parent report
-            var newSubReport = new gcXtraReport();
-            var band = (DetailReportBand)report2.Bands[BandKind.DetailReport];
+            var newSubReport = new XtraReport();
+            var band = (DetailReportBand)report.Bands[BandKind.DetailReport];
             var myContainer = (XRSubreport)band.Bands[BandKind.Detail].Controls[0];
 
 
@@ -61,7 +61,7 @@ namespace XtraSubReports.Winforms.Tests.Integration
             // then:
             newSubReport.DataSource.Should().NotBeNull();
             var dog = (Dog)((List<object>)newSubReport.DataSource).Single();
-            var peoples = (List<Person2>)report2.DataSource;
+            var peoples = (List<Person2>)report.DataSource;
 
             peoples[0].Dogs[0].Name.Should().Be(dog.Name);
         }
@@ -85,7 +85,7 @@ namespace XtraSubReports.Winforms.Tests.Integration
             DesignReportMetadataAssociationRepository dataDefRep = init(out setter, out datarep);
 
             var md = datarep.GetDataSourceMetadataByUniqueId("DogTime");
-            var report = new gcXtraReport();
+            var report = new XtraReport();
             setter.SetReportDatasource(report, md);
             report.DataSource.Should().NotBeNull();
             var persons = ((List<Person2>)report.DataSource);
@@ -101,7 +101,7 @@ namespace XtraSubReports.Winforms.Tests.Integration
             var dataDefRep = init(out setter, out datarep);
 
             var md = datarep.GetDataSourceMetadataByUniqueId("DogTime");
-            var report = new gcXtraReport();
+            var report = new XtraReport();
             setter.SetReportDatasource(report, md, "Dogs");
             report.DataSource.Should().NotBeNull();
             var dogs = ((List<Dog>)report.DataSource);

@@ -1,4 +1,5 @@
 using System.Linq;
+using Caliburn.Micro;
 using DevExpress.XtraReports.UI;
 using GeniusCode.XtraReports.Design;
 using GeniusCode.XtraReports.Runtime;
@@ -22,7 +23,7 @@ namespace GeniusCode.XtraReports.Designer.Support
 
         public IReportController GetController(XtraReport report)
         {
-            return new ReportController(report,_xrRuntimeActionFacade);
+            return new ReportController(new EventAggregator(),  report,_xrRuntimeActionFacade);
         }
     }
 }

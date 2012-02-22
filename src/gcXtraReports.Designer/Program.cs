@@ -25,6 +25,7 @@ namespace GeniusCode.XtraReports.Designer
 {
     public static class Program
     {
+        public static IEventAggregator DefaultEventAggregator = new EventAggregator();
         public static ActionMessageHandler ActionMessageHandler;
         public static DebugMessageHandler DebugDebugMessageHandler;
         private const string DefaultRootFolderName = "gcXtraReports\\ReportDesigner";
@@ -93,7 +94,7 @@ namespace GeniusCode.XtraReports.Designer
                     bs.SetProjectNameToSingle();
                     break;
             }
-            var debug = new TraceOutput(EventAggregatorSingleton.Instance);
+            var debug = new TraceOutput(DefaultEventAggregator);
             debug.Show();
             projectBootstrapper = bs.GetProjectBootstrapper(ReportsDirectoryName, DataSourceDirectoryName,
                                                                 ActionsDirectoryName);
@@ -133,7 +134,7 @@ namespace GeniusCode.XtraReports.Designer
             actionTypes.ForEach(t=> builder.RegisterType(t).AsImplementedInterfaces());
             datasourceProviderTypes.ForEach(t => builder.RegisterType(t).AsImplementedInterfaces());
 
-            builder.RegisterInstance(EventAggregatorSingleton.Instance).AsImplementedInterfaces();
+            builder.RegisterInstance(DefaultEventAggregator).AsImplementedInterfaces();
             builder.RegisterType<MessagingDesignForm>().OnActivated(a=> DrawToolbarButtons(a.Instance));
             builder.RegisterType<DesignReportMetadataAssociationRepository>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<DesignDataRepository>().AsImplementedInterfaces().SingleInstance();
@@ -198,7 +199,7 @@ namespace GeniusCode.XtraReports.Designer
 
 
             // Create Select Datasource Dialog
-            dialog = new SelectDesignTimeDataSourceForm(dataContext, report, EventAggregatorSingleton.Instance, new ObjectGraphPathTraverser());
+            dialog = new SelectDesignTimeDataSourceForm(dataContext, report, DefaultEventAggregator, new ObjectGraphPathTraverser());
             dialog.BringToFront();
             dialog.ShowDialog();
         }
@@ -206,6 +207,22 @@ namespace GeniusCode.XtraReports.Designer
 
         private static void SetupNLog()
         {
+            //write config file to the root!
+            //gcXtraReports.Designer
+
+            using (var stream = typeof(Program).Assembly.GetManifestResourceStream("GeniusCode.XtraReports.Designer.NLog.config"))
+            {
+                if(File.Exists("NLog.config"))
+                File.Delete("NLog.config");
+
+                using (var fs = File.Create("NLog.config"))
+                {
+                    stream.CopyTo(fs);
+                    fs.Flush();
+                }
+            }
+
+
             //ConfigurationItemFactory.Default.Targets.RegisterDefinition("MessagePublishingTarget", typeof(MessagePublishingTarget));
 
             // Create a Logger

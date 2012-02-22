@@ -24,7 +24,7 @@ namespace XtraSubReport.Winforms.Specs.Steps
         IDesignDataContext _dataContext;
         private IReportDatasourceMetadata _datasourceMetadata;
         private gcXtraReport _parentReport;
-        private gcXtraReport _newReport;
+        private XtraReport _newReport;
         private ActionMessageHandler _messageHandler;
         private XRSubreport _container;
         private IEventAggregator _eventAggregator;
@@ -45,7 +45,7 @@ namespace XtraSubReport.Winforms.Specs.Steps
         [Given(@"PersonReport exists with a subreport called DogReport in a detail report")]
         public void GivenPersonReportExistsWithASubreportCalledDogReportInADetailReport()
         {
-            _parentReport = new XtraReportWithSubReportInDetailReport().ConvertReportToMyReportBase();
+            _parentReport = new XtraReportWithSubReportInDetailReport().ConvertReportToMyReportBase(_eventAggregator);
 
             var band = (DetailReportBand)_parentReport.Bands[BandKind.DetailReport];
             _container = (XRSubreport)band.Bands[BandKind.Detail].Controls[0];
@@ -67,7 +67,7 @@ namespace XtraSubReport.Winforms.Specs.Steps
         [Given(@"a new report instance exists")]
         public void GivenANewReportInstanceExists()
         {
-            _newReport = new gcXtraReport();
+            _newReport = new XtraReport();
         }
 
         [When(@"A ReportActivatedBySubreportMessage occurs which contains the new report instance")]

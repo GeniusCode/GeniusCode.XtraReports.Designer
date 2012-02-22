@@ -118,8 +118,8 @@
     <Reference Include="gcXtraReports.Core">
       <HintPath>..\packages\gcXtraReports.Core.1.0.7\lib\net40\gcXtraReports.Core.dll</HintPath>
     </Reference>
-    <Reference Include="gcXtraReports.Runtime">
-      <HintPath>..\packages\gcXtraReports.Runtime.1.0.44\lib\net40\gcXtraReports.Runtime.dll</HintPath>
+    <Reference Include="gcXtraReports.Runtime, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\gcXtraReports.Runtime.1.0.47\lib\net40\gcXtraReports.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
@@ -194,6 +194,7 @@
     <Compile Include="Repositories\DesignReportMetadataAssociationRepository.cs" />
     <Compile Include="Repositories\DesignDataRepository.cs" />
     <Compile Include="Support\ReportControllerFactory.cs" />
+    <Compile Include="Support\Utils.cs" />
     <Content Include="Sample Reports\dummy.placeholder.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -226,9 +227,7 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="NLog.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <EmbeddedResource Include="NLog.config" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\GeniusCode.XtraReports.IReportDatasourceMetadata.datasource" />
     <None Include="Properties\DataSources\XtraSubreport.Engine.Support.DesignTimeDataSourceTreeItem.datasource" />
