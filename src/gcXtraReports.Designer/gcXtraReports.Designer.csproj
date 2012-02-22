@@ -72,9 +72,9 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationRevision>$(BUILD_NUMBER)</ApplicationRevision>
     <InstallUrl>$(INSTALL_URL)</InstallUrl>
-    <PublishUrl>publish\</PublishUrl>
+    <PublishUrl>$(INSTALL_URL)</PublishUrl>
     <UpdateUrl>$(UPDATE_URL)</UpdateUrl>
   </PropertyGroup>
   <ItemGroup>
