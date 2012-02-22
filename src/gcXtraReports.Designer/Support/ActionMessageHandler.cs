@@ -122,9 +122,10 @@ namespace GeniusCode.XtraReports.Designer.Support
         public void Handle(DesignPanelPrintPreviewMessage message)
         {
             var previewReport = message.DesignPanel.Report.CloneLayoutAsMyReportBase();
-            var reportController = _reportControllerFactory.GetController(previewReport);
-            // Print Preview!
-            reportController.Print(r => r.ShowPreviewDialog(message.DesignPanel.LookAndFeel));
+            using (var reportController = _reportControllerFactory.GetController(previewReport))
+            {
+                var newreport = reportController.Print(r => r.ShowPreviewDialog(message.DesignPanel.LookAndFeel));    
+            }           
         }
 
         public void Handle(DataSourceSelectedForReportMessage message)
