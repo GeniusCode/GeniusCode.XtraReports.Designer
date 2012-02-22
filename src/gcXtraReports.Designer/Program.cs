@@ -175,7 +175,7 @@ namespace GeniusCode.XtraReports.Designer
                 
 
                                                    PromptSelectDatasource(form, report, dataContext);
-                                                   form.RedrawFieldListOnActiveDesignPanel();
+                                                   form.RedrawFieldListOnDesignPanel(null);
             };
 
             // Add Datasource Button

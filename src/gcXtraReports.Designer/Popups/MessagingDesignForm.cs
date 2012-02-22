@@ -81,11 +81,6 @@ namespace GeniusCode.XtraReports.Designer.Popups
             {
                 var report = designPanel.Report;
 
-                // TODO: Set DesignPanel Filename?
-                // string url;
-                // report.Extensions.TryGetValue("StorageID", out url);
-                // designPanel.FileName = url;
-
                 // Populate Design-Time Datasource
                 report.TryAs<XtraReport>(myReport =>
                 {
@@ -98,7 +93,7 @@ namespace GeniusCode.XtraReports.Designer.Popups
                         // Subreport was Double-clicked, new DesignPanel has been activated for it
                         // Pass Design-Time DataSource from Parent to Subreport
                         _aggregator.Publish(new ReportActivatedBySubreportMessage(myReport, selectedSubreport));
-                        this.RedrawFieldListOnActiveDesignPanel();
+                        this.RedrawFieldListOnDesignPanel(designPanel);
                     //PassDesignTimeDataSourceToSubreport(selectedSubreport, myReport);
                 });
 

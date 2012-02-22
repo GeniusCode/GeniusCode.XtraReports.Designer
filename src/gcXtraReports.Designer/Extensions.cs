@@ -10,13 +10,15 @@ namespace GeniusCode.XtraReports.Designer
 {
     public static class Extensions
     {
-        public static void RedrawFieldListOnActiveDesignPanel(this MessagingDesignForm form)
+        public static void RedrawFieldListOnDesignPanel(this MessagingDesignForm form, XRDesignPanel designPanel)
         {
             if (form.ActiveDesignPanel == null) return;
 
+            designPanel = designPanel ?? form.ActiveDesignPanel;
+
             // Update the Field List.
             var fieldList = (FieldListDockPanel)form.DesignDockManager[DesignDockPanelType.FieldList];
-            var host = (IDesignerHost)form.ActiveDesignPanel.GetService(typeof(IDesignerHost));
+            var host = (IDesignerHost)designPanel.GetService(typeof(IDesignerHost));
             fieldList.UpdateDataSource(host);
         }
     }
