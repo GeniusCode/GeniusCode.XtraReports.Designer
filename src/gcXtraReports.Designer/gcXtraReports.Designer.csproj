@@ -70,9 +70,9 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
+    <ApplicationVersion>$(BUILD_NUMBER)</ApplicationVersion>
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-    <ApplicationRevision>$(BUILD_NUMBER)</ApplicationRevision>
     <InstallUrl>$(INSTALL_URL)</InstallUrl>
     <PublishUrl>$(INSTALL_URL)</PublishUrl>
     <UpdateUrl>$(UPDATE_URL)</UpdateUrl>
