@@ -5,6 +5,7 @@ using System.Reflection;
 using FluentAssertions;
 using GeniusCode.XtraReports.Designer.Prototypes;
 using GeniusCode.XtraReports.Designer.Support;
+using Microsoft.Win32;
 using NUnit.Framework;
 
 namespace XtraSubReports.Winforms.Tests.Unit
@@ -35,6 +36,7 @@ namespace XtraSubReports.Winforms.Tests.Unit
 
 
         }
+
 
 /*        [Test]
         public void Should_auto_create_folders()

@@ -16,6 +16,7 @@
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <RestorePackages>true</RestorePackages>
+    <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
@@ -27,6 +28,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
+    <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -153,6 +155,7 @@
     <Compile Include="Prototypes\DllLoader.cs" />
     <Compile Include="Prototypes\IDynamicDllLoader.cs" />
     <Compile Include="Prototypes\IFileAndDirectoryCloner.cs" />
+    <Compile Include="Support\RegistryHelper.cs" />
     <Compile Include="Support\CustomRootDirectoryStorageExtension.cs" />
     <Compile Include="Support\ActionMessageHandler.cs" />
     <Compile Include="Support\AppBootStrapper.cs" />
@@ -172,6 +175,7 @@
     <Compile Include="Popups\Support\DesignTimeDataSourceTreeItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Support\DataSourceSetter.cs" />
+    <Compile Include="Support\IRootPathAcquirer.cs" />
     <Compile Include="Support\MessagePublishingTarget.cs" />
     <Compile Include="Support\NLogMessage.cs" />
     <Compile Include="Support\ProjectBootStrapper.cs" />
@@ -203,6 +207,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Popups\NoProjectsExistWarning.resx">
       <DependentUpon>NoProjectsExistWarning.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Popups\SelectDesignTimeDataSourceForm.resx">
       <DependentUpon>SelectDesignTimeDataSourceForm.cs</DependentUpon>

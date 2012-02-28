@@ -64,6 +64,7 @@
     <Compile Include="Integration\Setter_tests.cs" />
     <Compile Include="Unit\Cloner_tests.cs" />
     <Compile Include="Unit\Project_bootstrapper_tests.cs" />
+    <Compile Include="Unit\RegistryHelper_tests.cs" />
     <Compile Include="XtraReport1.cs">
       <SubType>Component</SubType>
     </Compile>

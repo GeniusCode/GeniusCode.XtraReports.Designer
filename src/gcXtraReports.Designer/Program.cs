@@ -28,6 +28,7 @@ namespace GeniusCode.XtraReports.Designer
         public static IEventAggregator DefaultEventAggregator = new EventAggregator();
         public static ActionMessageHandler ActionMessageHandler;
         public static DebugMessageHandler DebugDebugMessageHandler;
+        private const string RegistryPath = "SOFTWARE\\gcXtraReports.Designer";
         private const string DefaultRootFolderName = "gcXtraReports\\ReportDesigner";
         private const string DataSourceDirectoryName = "Datasources";
         private const string ReportsDirectoryName = "Reports";
@@ -70,8 +71,11 @@ namespace GeniusCode.XtraReports.Designer
         {
             projectBootstrapper = null;
 
-            var bs = new AppBootStrapper(
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), DefaultRootFolderName));
+            IRootPathAcquirer acquirer = new RegistryHelper(RegistryPath);
+            var defaultPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),
+                                           DefaultRootFolderName);
+
+            var bs = new AppBootStrapper(acquirer,defaultPath);
 
             var mode = bs.DetectProjectMode();
 
@@ -138,13 +142,13 @@ namespace GeniusCode.XtraReports.Designer
             builder.RegisterType<MessagingDesignForm>().OnActivated(a=> DrawToolbarButtons(a.Instance));
             builder.RegisterType<DesignReportMetadataAssociationRepository>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<DesignDataRepository>().AsImplementedInterfaces().SingleInstance();
-            //TODO: Make this work again builder.RegisterType<SelectDesignTimeDataSourceForm>();
             builder.RegisterType<DesignDataContext2>().SingleInstance();
             builder.RegisterType<ActionMessageHandler>().SingleInstance();
             builder.RegisterType<DebugMessageHandler>().SingleInstance();
             builder.RegisterType<ReportControllerFactory>().AsImplementedInterfaces();
             builder.RegisterType<ObjectGraphPathTraverser>().AsImplementedInterfaces();
             builder.RegisterType<DataSourceSetter>().AsImplementedInterfaces();
+
             return builder.Build();
         }
 

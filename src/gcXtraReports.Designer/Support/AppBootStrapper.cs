@@ -13,9 +13,9 @@ namespace GeniusCode.XtraReports.Designer.Support
         public string RootPath {get { return _defaultRootPath; }}
 
 
-        public AppBootStrapper(string defaultRootPath)
+        public AppBootStrapper(IRootPathAcquirer rootPathAcquirerAcquirer, string defaultPath)
         {
-            _defaultRootPath = defaultRootPath;
+            _defaultRootPath = rootPathAcquirerAcquirer.AcquireRootPath(defaultPath);
         }
 
         public ProjectBootStrapper GetProjectBootstrapper(string reportsFolderName, string dataSourceFolderName, string actionsFolderName)
