@@ -13,4 +13,13 @@ Scenario: Passing Datasource Using Traversal
 	When A ReportActivatedBySubreportMessage occurs which contains the new report instance
 	Then the new report instance's datasource should be the first dog of the first person from PersonReport's datasource
 
+Scenario: Passing Datasource Using 2-Nested Subreports
+	Given The design runtime is ready
+	And a datasource exists called DogTime
+	And ReportA exists with a subreport called ReportB in a detail report
+	And ReportB exists with a subreport called ReportC in a detail report
+	And ReportA loads the DogTime datasource
+	And the user has activated subreport ReportB inside ReportA
+	When the user activates subreport ReportC inside ReportB
+	Then ReportC's datasource should be the first Toy of the first Dog of the first Person in DogTime
 

@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -81,6 +82,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecFlowNUnitExtension.cs" />
     <Compile Include="Steps\Passing_datasources_at_design_time.cs" />
+    <Compile Include="Steps\Passing_datasources_at_design_time_through_2_nested_subreports.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

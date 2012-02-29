@@ -93,6 +93,34 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Passing Datasource Using 2-Nested Subreports")]
+        public virtual void PassingDatasourceUsing2_NestedSubreports()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Passing Datasource Using 2-Nested Subreports", ((string[])(null)));
+#line 16
+this.ScenarioSetup(scenarioInfo);
+#line 17
+ testRunner.Given("The design runtime is ready");
+#line 18
+ testRunner.And("a datasource exists called DogTime");
+#line 19
+ testRunner.And("ReportA exists with a subreport called ReportB in a detail report");
+#line 20
+ testRunner.And("ReportB exists with a subreport called ReportC in a detail report");
+#line 21
+ testRunner.And("ReportA loads the DogTime datasource");
+#line 22
+ testRunner.And("the user has activated subreport ReportB inside ReportA");
+#line 23
+ testRunner.When("the user activates subreport ReportC inside ReportB");
+#line 24
+ testRunner.Then("ReportC\'s datasource should be the first Toy of the first Dog of the first Person" +
+                    " in DogTime");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

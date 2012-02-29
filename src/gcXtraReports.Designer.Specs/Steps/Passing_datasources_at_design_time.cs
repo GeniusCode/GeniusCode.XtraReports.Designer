@@ -8,7 +8,6 @@ using GeniusCode.XtraReports.Design;
 using GeniusCode.XtraReports.Designer.Messaging;
 using GeniusCode.XtraReports.Designer.Support;
 using GeniusCode.XtraReports.Runtime;
-using GeniusCode.XtraReports.Runtime.Support;
 using TechTalk.SpecFlow;
 using XtraSubReports.TestResources.Infrastructure;
 using XtraSubReports.TestResources.Models;
@@ -17,17 +16,18 @@ using XtraSubReports.TestResources.Reports;
 namespace XtraSubReport.Winforms.Specs.Steps
 {
     [Binding]
-    [Scope(Feature = "Passing datasources at design time")]
+    [Scope(Feature = "Passing datasources at design time", Scenario = "Passing Datasource Using Traversal")]
     public class Passing_datasources_at_design_time
     {
         IDataSourceSetter _setter;
         IDesignDataContext _dataContext;
         private IReportDatasourceMetadata _datasourceMetadata;
-        private gcXtraReport _parentReport;
+        private XtraReport _parentReport;
         private XtraReport _newReport;
         private ActionMessageHandler _messageHandler;
         private XRSubreport _container;
         private IEventAggregator _eventAggregator;
+
         [Given(@"The design runtime is ready")]
         public void GivenTheDesignRuntimeIsReady()
         {

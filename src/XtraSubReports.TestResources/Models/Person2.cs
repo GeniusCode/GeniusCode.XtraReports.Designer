@@ -13,14 +13,17 @@ namespace XtraSubReports.TestResources.Models
                                             {
                                                 Name = "Douglas Sam",
                                                 Age = 17,
-                                                Dogs = new List<Dog> {new Dog {Name = "Rex"}, new Dog {Name = "Rudy"}}
+                                                Dogs = new List<Dog>
+                                                {
+                                                    new Dog("Rex", "ball1", "ball2"), new Dog("Rudy", "ball3", "ball4")
+                                                }
                                             },
                                         new Person2
                                             {
                                                 Name = "Fred Thomas",
                                                 Age = 35,
                                                 Dogs =
-                                                    new List<Dog> {new Dog {Name = "Sally"}, new Dog {Name = "Stubert"}}
+                                                    new List<Dog> {new Dog("Sally", "ball5", "ball6"), new Dog("Stubert", "ball7", "ball8")}
                                             },
                                         new Person2
                                             {
@@ -28,12 +31,11 @@ namespace XtraSubReports.TestResources.Models
                                                 Age = 100,
                                                 Dogs =
                                                     new List<Dog>
-                                                        {new Dog {Name = "Nibbles"}, new Dog {Name = "Norbert"}}
+                                                        {new Dog("Nibbles", "ball9", "ball10"), new Dog("Norbert", "ball11", "ball12")}
                                             }
 
                                     };
         }
-
 
         public string Name { get; set; }
         public int Age { get; set; }
