@@ -4,20 +4,19 @@ using NUnit.Core;
 using NUnit.Core.Extensibility;
 
 
-
 namespace TechTalk.SpecFlow
 {
-    
+
     [NUnitAddin(Type = ExtensionType.Core, Name = "SpecFlow")]
     public class SpecFlowNUnitExtension : IAddin, EventListener
     {
-        
+
         public bool Install(IExtensionHost host)
         {
             IExtensionPoint listeners = host.GetExtensionPoint("EventListeners");
 
             listeners.Install(this);
-            
+
             return true;
         }
 
