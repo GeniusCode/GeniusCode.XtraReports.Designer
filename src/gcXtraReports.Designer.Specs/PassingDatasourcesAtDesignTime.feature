@@ -23,3 +23,8 @@ Scenario: Passing Datasource Using 2-Nested Subreports
 	When the user activates subreport ReportC inside ReportB
 	Then ReportC's datasource should be the first Toy of the first Dog of the first Person in DogTime
 
+Scenario: Activating a Subreport without a Datasource
+	Given The design runtime is ready
+	And ReportA exists with a subreport called ReportB in a detail report
+	When the user activates subreport ReportB inside ReportA without a datasource
+	Then ReportB should open without a datasource

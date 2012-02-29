@@ -121,6 +121,25 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Activating a Subreport without a Datasource")]
+        public virtual void ActivatingASubreportWithoutADatasource()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Activating a Subreport without a Datasource", ((string[])(null)));
+#line 26
+this.ScenarioSetup(scenarioInfo);
+#line 27
+ testRunner.Given("The design runtime is ready");
+#line 28
+ testRunner.And("ReportA exists with a subreport called ReportB in a detail report");
+#line 29
+ testRunner.When("the user activates subreport ReportB inside ReportA without a datasource");
+#line 30
+ testRunner.Then("ReportB should open without a datasource");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

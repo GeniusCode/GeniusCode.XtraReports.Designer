@@ -9,8 +9,6 @@ using GeniusCode.XtraReports.Design.Traversals;
 using GeniusCode.XtraReports.Designer.Messaging;
 using GeniusCode.XtraReports.Designer.Repositories;
 using GeniusCode.XtraReports.Designer.Support;
-using GeniusCode.XtraReports.Runtime;
-using GeniusCode.XtraReports.Runtime.Support;
 using NUnit.Framework;
 using XtraSubReports.TestResources.Infrastructure;
 using XtraSubReports.TestResources.Models;

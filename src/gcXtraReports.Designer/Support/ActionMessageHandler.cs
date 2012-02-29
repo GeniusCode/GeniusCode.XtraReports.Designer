@@ -110,6 +110,11 @@ namespace GeniusCode.XtraReports.Designer.Support
             var parentReport = message.SelectedSubreport.NavigateToBaseReport();
             // get datasource metadata from parent
             var parentDataSourceDefinition = _metadataAssociationRepository.GetCurrentAssociationForReport(parentReport);
+
+            // if no current datasource, there is nothing to pass
+            if (parentDataSourceDefinition == null)
+                return;
+
             // get traversal path
             var relativeTraversalPath = GetTraversalPath(message.SelectedSubreport.Band);
             // combine any previous traversal paths on the datasource with current traversal path inside this report

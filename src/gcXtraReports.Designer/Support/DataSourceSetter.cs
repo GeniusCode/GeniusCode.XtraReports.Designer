@@ -27,11 +27,8 @@ namespace GeniusCode.XtraReports.Designer.Support
 
         public void SetReportDatasource(XtraReport report, IReportDatasourceMetadata md, string traversalPath)
         {
-            object datasourceObject = null;
-
-            //Fetch datasource from repository (if metadata was supplied)
-            if (md != null)
-                datasourceObject = _designDataRepository.GetDataSourceByUniqueId(md.UniqueId);
+            //Fetch datasource from repository
+            object datasourceObject = _designDataRepository.GetDataSourceByUniqueId(md.UniqueId);
 
             //Traverse path
             var traverseResult = _dataSourceTraverser.TraversePath(datasourceObject, traversalPath);
