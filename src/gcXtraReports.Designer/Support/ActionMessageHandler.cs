@@ -1,14 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
 using Caliburn.Micro;
 using DevExpress.XtraReports.UI;
+using gcExtensions;
 using GeniusCode.XtraReports.Design;
 using GeniusCode.XtraReports.Designer.Messaging;
 using GeniusCode.XtraReports.Runtime;
 using GeniusCode.XtraReports.Runtime.Support;
-using gcExtensions;
 
 namespace GeniusCode.XtraReports.Designer.Support
 {
@@ -17,7 +14,7 @@ namespace GeniusCode.XtraReports.Designer.Support
         private readonly IDataSourceSetter _dataSourceSetter;
         private readonly IDesignReportMetadataAssociationRepository _metadataAssociationRepository;
         private readonly IReportControllerFactory _reportControllerFactory;
-        
+
         public ActionMessageHandler(IDataSourceSetter dataSourceSetter, IEventAggregator aggregator, IDesignReportMetadataAssociationRepository metadataAssociationRepository, IReportControllerFactory reportControllerFactory)
         {
             _dataSourceSetter = dataSourceSetter;
@@ -45,7 +42,7 @@ namespace GeniusCode.XtraReports.Designer.Support
                 return path;
 
             band.TryAs<XtraReportBase>(report => path = GetFullDataMemberPathForXtraReportBase(report));
-                                           
+
 
             if (band is XtraReportBase == false)
             {
@@ -94,34 +91,52 @@ namespace GeniusCode.XtraReports.Designer.Support
                     var selectedDatasourceDefinition =
                         _metadataAssociationRepository.GetCurrentAssociationForReport(asMyReportBase);
 
-                        if (selectedDatasourceDefinition != null)
-                        {
-                            // Append parent report
-                            var startingReportPath = _metadataAssociationRepository.GetCurrentAssociationForReport(asMyReportBase);
-                            path = startingReportPath.TraversalPath;
-                        }
+                    if (selectedDatasourceDefinition != null)
+                    {
+                        // Append parent report
+                        var startingReportPath = _metadataAssociationRepository.GetCurrentAssociationForReport(asMyReportBase);
+                        path = startingReportPath.TraversalPath;
+                    }
                 }
-                
+
             }
 
             return path;
         }
 
         public void Handle(ReportActivatedBySubreportMessage message)
-        {         
+        {
             // go to parent
             var parentReport = message.SelectedSubreport.NavigateToBaseReport();
             // get datasource metadata from parent
             var parentDataSourceDefinition = _metadataAssociationRepository.GetCurrentAssociationForReport(parentReport);
+
+            // if no current datasource, there is nothing to pass
+            if (parentDataSourceDefinition == null)
+                return;
+
             // get traversal path
-            var path = GetTraversalPath(message.SelectedSubreport.Band);
+            var relativeTraversalPath = GetTraversalPath(message.SelectedSubreport.Band);
+            // combine any previous traversal paths on the datasource with current traversal path inside this report
+            var path = CombineTraversalPaths(parentDataSourceDefinition, relativeTraversalPath);
             // set datasource on new report
-            _dataSourceSetter.SetReportDatasource(message.NewReport,parentDataSourceDefinition,path);
+            _dataSourceSetter.SetReportDatasource(message.NewReport, parentDataSourceDefinition, path);
+        }
+
+        private string CombineTraversalPaths(IReportDatasourceMetadataWithTraversal traversal, string deeperPathToAdd)
+        {
+            if (String.IsNullOrWhiteSpace(traversal.TraversalPath))
+                return deeperPathToAdd;
+
+            if (String.IsNullOrWhiteSpace(deeperPathToAdd))
+                return traversal.TraversalPath;
+
+            return traversal.TraversalPath + "." + deeperPathToAdd;
         }
 
         public void Handle(DesignPanelPrintPreviewMessage message)
         {
-            _reportControllerFactory.GetController(message.DesignPanel.Report).Print(r=> r.ShowPreviewDialog(message.DesignPanel.LookAndFeel));
+            _reportControllerFactory.GetController(message.DesignPanel.Report).Print(r => r.ShowPreviewDialog(message.DesignPanel.LookAndFeel));
         }
 
         public void Handle(DataSourceSelectedForReportMessage message)

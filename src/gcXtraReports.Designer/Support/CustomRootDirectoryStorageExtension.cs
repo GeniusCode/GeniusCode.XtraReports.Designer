@@ -1,12 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using Caliburn.Micro;
+﻿using System.IO;
 using DevExpress.XtraReports.Extensions;
 using DevExpress.XtraReports.UI;
-using GeniusCode.XtraReports.Designer.Messaging;
-using gcExtensions;
 
 namespace GeniusCode.XtraReports.Designer.Support
 {
@@ -21,7 +15,16 @@ namespace GeniusCode.XtraReports.Designer.Support
 
         protected override string RootDirectory
         {
-            get { return _rootDirectory; }  
+            get { return _rootDirectory; }
         }
+
+        public override void SetData(XtraReport report, string url)
+        {
+            // Change Report Display Name when Saving.  So users know what file each report tab represents
+            report.DisplayName = Path.GetFileNameWithoutExtension(url);
+
+            base.SetData(report, url);
+        }
+
     }
 }

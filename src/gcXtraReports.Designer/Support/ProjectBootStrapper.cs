@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using GeniusCode.XtraReports.Designer.Prototypes;
 using NLog;
@@ -25,7 +24,6 @@ namespace GeniusCode.XtraReports.Designer.Support
         private readonly string _actionsFolderName;
         private readonly IFileAndDirectoryCloner _cloner;
         private readonly IDynamicDllLoader _loader;
-        private readonly string _reportsTargetFolderPath;
         private readonly string _datasourceTargetFolderPath;
         private readonly string _actionsTargetFolderPath;
 
@@ -38,7 +36,7 @@ namespace GeniusCode.XtraReports.Designer.Support
 
             _logger = LogManager.GetCurrentClassLogger();
 
-            
+
 
             _projectPath = projectPath;
             _reportsFolderName = reportsFolderName;
@@ -54,7 +52,7 @@ namespace GeniusCode.XtraReports.Designer.Support
             var pluginsRootPath = Path.Combine(applicationRoot, PluginsFolderName);
 
             //TODO: Unit test this!
-            if(Directory.Exists(pluginsRootPath))
+            if (Directory.Exists(pluginsRootPath))
             {
                 Directory.Delete(pluginsRootPath, true);
             }
@@ -63,7 +61,6 @@ namespace GeniusCode.XtraReports.Designer.Support
             _logger.Trace("Project path: {0}", _projectPath);
             _logger.Trace("Plugins path: {0}", pluginsRootPath);
 
-            _reportsTargetFolderPath = Path.Combine(pluginsRootPath, _reportsFolderName);
             _datasourceTargetFolderPath = Path.Combine(pluginsRootPath, _datasourceFolderName);
             _actionsTargetFolderPath = Path.Combine(pluginsRootPath, _actionsFolderName);
 
@@ -82,7 +79,7 @@ namespace GeniusCode.XtraReports.Designer.Support
 
         public void ExecuteProjectBootStrapperFile(string bootstrapperBat)
         {
-            if(string.IsNullOrWhiteSpace(bootstrapperBat)) throw new ArgumentNullException("bootstrapperBat");
+            if (string.IsNullOrWhiteSpace(bootstrapperBat)) throw new ArgumentNullException("bootstrapperBat");
 
             var fullPath = Path.Combine(_projectPath, bootstrapperBat);
 
@@ -120,24 +117,24 @@ namespace GeniusCode.XtraReports.Designer.Support
         public void CopyProjectFiles()
         {
 
-            var reportsSourceFolderPath = Path.Combine(_projectPath, _reportsFolderName);
+            var reportSourceFolderPath = Path.Combine(_projectPath, _reportsFolderName);
             var datasourceSourceFolderPath = Path.Combine(_projectPath, _datasourceFolderName);
             var actionsSourceFolderPath = Path.Combine(_projectPath, _actionsFolderName);
 
-            CreatePath(_reportsTargetFolderPath);
-            CreatePath(_datasourceTargetFolderPath);
-            CreatePath(_actionsTargetFolderPath);
-
-            CreatePath(reportsSourceFolderPath);
+            // Create Folders in Project Root Path
+            CreatePath(reportSourceFolderPath);
             CreatePath(datasourceSourceFolderPath);
             CreatePath(actionsSourceFolderPath);
 
-            CloneFiles(reportsSourceFolderPath, _reportsTargetFolderPath);
+            // Create Target Folders for Copying Datasources & Actions under our Application Path
+            CreatePath(_datasourceTargetFolderPath);
+            CreatePath(_actionsTargetFolderPath);
+
             CloneFiles(datasourceSourceFolderPath, _datasourceTargetFolderPath);
             CloneFiles(actionsSourceFolderPath, _actionsTargetFolderPath);
         }
 
-        private void CloneFiles (string sourceFolderName, string targetPath)
+        private void CloneFiles(string sourceFolderName, string targetPath)
         {
             _logger.Trace("Cloning files from {0} to {1}", sourceFolderName, targetPath);
             CreatePath(targetPath);
