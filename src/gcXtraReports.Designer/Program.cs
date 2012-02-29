@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -15,9 +14,7 @@ using GeniusCode.XtraReports.Designer.Messaging;
 using GeniusCode.XtraReports.Designer.Popups;
 using GeniusCode.XtraReports.Designer.Repositories;
 using GeniusCode.XtraReports.Designer.Support;
-using GeniusCode.XtraReports.Runtime.Support;
 using NLog;
-using gcExtensions;
 
 //using SelectDesignTimeDataSourceForm = XtraSubReport.Winforms.Popups.SelectDesignTimeDataSourceForm;
 
@@ -48,16 +45,17 @@ namespace GeniusCode.XtraReports.Designer
         {
 
             SetupNLog();
-            
+
             ProjectBootStrapper projectBootstrapper;
             if (InitUsingBootstrappers(out projectBootstrapper) == false) return;
 
-           
+
             CompositeRoot.Init(BuildContainer());
             var form = CompositeRoot.Instance.GetDesignForm();
             DebugDebugMessageHandler = CompositeRoot.Instance.GetDebugMessageHandler();
             ActionMessageHandler = CompositeRoot.Instance.GetActionMessageHandler();
- 
+
+            // Register Reports Base Folder
             var extension = new CustomRootDirectoryStorageExtension(ProjectReportPath);
             ReportStorageExtension.RegisterExtensionGlobal(extension);
 
@@ -75,7 +73,7 @@ namespace GeniusCode.XtraReports.Designer
             var defaultPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal),
                                            DefaultRootFolderName);
 
-            var bs = new AppBootStrapper(acquirer,defaultPath);
+            var bs = new AppBootStrapper(acquirer, defaultPath);
 
             var mode = bs.DetectProjectMode();
 
@@ -88,11 +86,11 @@ namespace GeniusCode.XtraReports.Designer
                     var form = new ChooseProject(bs.GetProjects());
                     form.ShowDialog();
 
-                    if(!String.IsNullOrWhiteSpace(form.SelectedPath))
+                    if (!String.IsNullOrWhiteSpace(form.SelectedPath))
                         bs.SetProjectName(form.SelectedPath);
 
                     if (bs.DetectProjectMode() == AppProjectsStructureMode.MultipleUnchosen)
-                        return false;                       
+                        return false;
                     break;
                 case AppProjectsStructureMode.Single:
                     bs.SetProjectNameToSingle();
@@ -102,12 +100,12 @@ namespace GeniusCode.XtraReports.Designer
             debug.Show();
             projectBootstrapper = bs.GetProjectBootstrapper(ReportsDirectoryName, DataSourceDirectoryName,
                                                                 ActionsDirectoryName);
-            
+
 
             projectBootstrapper.ExecuteProjectBootStrapperFile(BootStrapperBatchFileName);
             projectBootstrapper.CopyProjectFiles();
             projectBootstrapper.LoadProjectAssemblies();
-            
+
             ProjectPath = projectBootstrapper.ProjectPath;
             ProjectReportPath = Path.Combine(ProjectPath, ReportsDirectoryName);
             return true;
@@ -119,7 +117,7 @@ namespace GeniusCode.XtraReports.Designer
 
             var actionTypes = (from a in AppDomain.CurrentDomain.GetAssemblies()
                                from t2 in a.GetTypes()
-                               where typeof (IReportControlAction).IsAssignableFrom(t2) && !t2.IsAbstract
+                               where typeof(IReportControlAction).IsAssignableFrom(t2) && !t2.IsAbstract
                                      && t2.Assembly.ManifestModule.Name != "gcXtraReports.Runtime.dll"
                                      && t2.Assembly.ManifestModule.Name != "gcXtraReports.Design.dll"
                                      && t2.Assembly.ManifestModule.Name != "gcXtraReports.Designer.dll"
@@ -128,18 +126,18 @@ namespace GeniusCode.XtraReports.Designer
             var datasourceProviderTypes = (from a in AppDomain.CurrentDomain.GetAssemblies()
                                            from t2 in a.GetTypes()
                                            where
-                                               typeof (IReportDatasourceFactory).IsAssignableFrom(t2) && !t2.IsAbstract
+                                               typeof(IReportDatasourceFactory).IsAssignableFrom(t2) && !t2.IsAbstract
                                                && t2.Assembly.ManifestModule.Name != "gcXtraReports.Runtime.dll"
                                                && t2.Assembly.ManifestModule.Name != "gcXtraReports.Design.dll"
                                                && t2.Assembly.ManifestModule.Name != "gcXtraReports.Designer.dll"
                                            select t2).ToList();
-            
 
-            actionTypes.ForEach(t=> builder.RegisterType(t).AsImplementedInterfaces());
+
+            actionTypes.ForEach(t => builder.RegisterType(t).AsImplementedInterfaces());
             datasourceProviderTypes.ForEach(t => builder.RegisterType(t).AsImplementedInterfaces());
 
             builder.RegisterInstance(DefaultEventAggregator).AsImplementedInterfaces();
-            builder.RegisterType<MessagingDesignForm>().OnActivated(a=> DrawToolbarButtons(a.Instance));
+            builder.RegisterType<MessagingDesignForm>().OnActivated(a => DrawToolbarButtons(a.Instance));
             builder.RegisterType<DesignReportMetadataAssociationRepository>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<DesignDataRepository>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<DesignDataContext2>().SingleInstance();
@@ -177,10 +175,10 @@ namespace GeniusCode.XtraReports.Designer
                 }
 
                 var report = form.DesignMdiController.ActiveDesignPanel.Report;
-                
 
-                                                   PromptSelectDatasource(form, report, dataContext);
-                                                   form.RedrawFieldListOnDesignPanel(null);
+
+                PromptSelectDatasource(form, report, dataContext);
+                form.RedrawFieldListOnDesignPanel(null);
             };
 
             // Add Datasource Button
@@ -194,7 +192,7 @@ namespace GeniusCode.XtraReports.Designer
         }
 
 
-        
+
 
 
         private static void PromptSelectDatasource(XRDesignForm form, XtraReport report, IDesignDataContext dataContext)
@@ -216,8 +214,8 @@ namespace GeniusCode.XtraReports.Designer
 
             using (var stream = typeof(Program).Assembly.GetManifestResourceStream("GeniusCode.XtraReports.Designer.NLog.config"))
             {
-                if(File.Exists("NLog.config"))
-                File.Delete("NLog.config");
+                if (File.Exists("NLog.config"))
+                    File.Delete("NLog.config");
 
                 using (var fs = File.Create("NLog.config"))
                 {
@@ -252,8 +250,8 @@ namespace GeniusCode.XtraReports.Designer
             {
                 var exception = (Exception)e.ExceptionObject;
                 _logger.FatalException("Report Designer encountered unhandled exception", exception);
-                MessageBox.Show("An exception has occured. Please check the log file at:" + LogPath );
-                
+                MessageBox.Show("An exception has occured. Please check the log file at:" + LogPath);
+
             };
         }
 
