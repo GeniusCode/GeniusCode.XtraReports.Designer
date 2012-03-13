@@ -37,11 +37,11 @@
     <Reference Include="DevExpress.Printing.v11.2.Core, Version=11.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Utils.v11.2, Version=11.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraReports.v11.2, Version=11.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="gcXtraReports.Core">
-      <HintPath>..\packages\gcXtraReports.Core.1.0.7\lib\net40\gcXtraReports.Core.dll</HintPath>
+    <Reference Include="gcXtraReports.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\gcXtraReports.Core.1.0.11\lib\net40\gcXtraReports.Core.dll</HintPath>
     </Reference>
     <Reference Include="gcXtraReports.Runtime, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\gcXtraReports.Runtime.1.0.47\lib\net40\gcXtraReports.Runtime.dll</HintPath>
+      <HintPath>..\packages\gcXtraReports.Runtime.1.0.48\lib\net40\gcXtraReports.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -97,7 +97,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
