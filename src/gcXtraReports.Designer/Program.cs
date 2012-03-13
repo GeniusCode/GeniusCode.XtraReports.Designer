@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using Autofac;
 using Caliburn.Micro;
@@ -111,26 +113,59 @@ namespace GeniusCode.XtraReports.Designer
             return true;
         }
 
+
+        private static List<Type> GetReportControlActionTypes()
+        {
+            return (from a in AppDomain.CurrentDomain.GetAssemblies()
+                    from t2 in a.GetTypes()
+                    where typeof(IReportControlAction).IsAssignableFrom(t2) && !t2.IsAbstract
+                          && t2.Assembly.ManifestModule.Name != "gcXtraReports.Runtime.dll"
+                          && t2.Assembly.ManifestModule.Name != "gcXtraReports.Design.dll"
+                          && t2.Assembly.ManifestModule.Name != "gcXtraReports.Designer.dll"
+                    select t2).ToList();
+        }
+
+
+        private static List<Type> GetDataSourceTypes()
+        {
+            return  (from a in AppDomain.CurrentDomain.GetAssemblies()
+             from t2 in a.GetTypes()
+             where
+                 typeof(IReportDatasourceFactory).IsAssignableFrom(t2) && !t2.IsAbstract
+                 && t2.Assembly.ManifestModule.Name != "gcXtraReports.Runtime.dll"
+                 && t2.Assembly.ManifestModule.Name != "gcXtraReports.Design.dll"
+                 && t2.Assembly.ManifestModule.Name != "gcXtraReports.Designer.dll"
+             select t2).ToList();
+        }
+
         private static IContainer BuildContainer()
         {
             var builder = new ContainerBuilder();
 
-            var actionTypes = (from a in AppDomain.CurrentDomain.GetAssemblies()
-                               from t2 in a.GetTypes()
-                               where typeof(IReportControlAction).IsAssignableFrom(t2) && !t2.IsAbstract
-                                     && t2.Assembly.ManifestModule.Name != "gcXtraReports.Runtime.dll"
-                                     && t2.Assembly.ManifestModule.Name != "gcXtraReports.Design.dll"
-                                     && t2.Assembly.ManifestModule.Name != "gcXtraReports.Designer.dll"
-                               select t2).ToList();
+            List<Type> actionTypes;
+            List<Type> datasourceProviderTypes;
+            try
+            {
+                 actionTypes = GetReportControlActionTypes();
+                 datasourceProviderTypes = GetDataSourceTypes();
+            }
+            catch (ReflectionTypeLoadException e)
+            {
+                _logger.Log(LogLevel.Fatal,"An error happened while loading exceptions");
 
-            var datasourceProviderTypes = (from a in AppDomain.CurrentDomain.GetAssemblies()
-                                           from t2 in a.GetTypes()
-                                           where
-                                               typeof(IReportDatasourceFactory).IsAssignableFrom(t2) && !t2.IsAbstract
-                                               && t2.Assembly.ManifestModule.Name != "gcXtraReports.Runtime.dll"
-                                               && t2.Assembly.ManifestModule.Name != "gcXtraReports.Design.dll"
-                                               && t2.Assembly.ManifestModule.Name != "gcXtraReports.Designer.dll"
-                                           select t2).ToList();
+                var exceptions = e.LoaderExceptions.ToList();
+
+                for (int i = 0; i < exceptions.Count; i++)
+                {
+                    var exception = e.LoaderExceptions[i];
+
+                    _logger.LogException(LogLevel.Fatal,
+                                         String.Format("Loader Exception {0} of {1}", i + 1, exceptions.Count), exception);
+                }
+                
+                throw;
+            }
+            
 
 
             actionTypes.ForEach(t => builder.RegisterType(t).AsImplementedInterfaces());
