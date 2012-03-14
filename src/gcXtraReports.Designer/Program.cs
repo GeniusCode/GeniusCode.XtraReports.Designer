@@ -114,28 +114,30 @@ namespace GeniusCode.XtraReports.Designer
         }
 
 
+        private static IEnumerable<Assembly> GetAssebliesToLookup()
+        {
+            return from a in AppDomain.CurrentDomain.GetAssemblies()
+                   where a.ManifestModule.Name != "gcXtraReports.Runtime.dll"
+                         && a.ManifestModule.Name != "gcXtraReports.Design.dll"
+                         && a.ManifestModule.Name != "gcXtraReports.Designer.dll"
+                         && a.ManifestModule.Name != "gcXtraReports.Core.dll"
+                   select a;
+        }                
         private static List<Type> GetReportControlActionTypes()
         {
-            return (from a in AppDomain.CurrentDomain.GetAssemblies()
+            return (from a in GetAssebliesToLookup()
                     from t2 in a.GetTypes()
                     where typeof(IReportControlAction).IsAssignableFrom(t2) && !t2.IsAbstract
-                          && t2.Assembly.ManifestModule.Name != "gcXtraReports.Runtime.dll"
-                          && t2.Assembly.ManifestModule.Name != "gcXtraReports.Design.dll"
-                          && t2.Assembly.ManifestModule.Name != "gcXtraReports.Designer.dll"
                     select t2).ToList();
         }
 
 
         private static List<Type> GetDataSourceTypes()
         {
-            return  (from a in AppDomain.CurrentDomain.GetAssemblies()
-             from t2 in a.GetTypes()
-             where
-                 typeof(IReportDatasourceFactory).IsAssignableFrom(t2) && !t2.IsAbstract
-                 && t2.Assembly.ManifestModule.Name != "gcXtraReports.Runtime.dll"
-                 && t2.Assembly.ManifestModule.Name != "gcXtraReports.Design.dll"
-                 && t2.Assembly.ManifestModule.Name != "gcXtraReports.Designer.dll"
-             select t2).ToList();
+            return (from a in GetAssebliesToLookup()
+                    from t2 in a.GetTypes()
+                    where typeof (IReportDatasourceFactory).IsAssignableFrom(t2) && !t2.IsAbstract
+                    select t2).ToList();
         }
 
         private static IContainer BuildContainer()
